@@ -11,14 +11,13 @@ namespace QRTracking
     {
         public GameObject qrCodePrefab;
 
-        public GameObject StepHandlerPanel;
-        public TextMeshPro LatestQRCodeDetails;
+        public GameObject mapScanScreen;
+        public GameObject selectionScreen;
+        public TextMeshPro scanningText;
 
         private System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
         private bool clearExisting = false;
         public GameObject model;
-
-        public TextMeshPro statusText;
 
         struct ActionData
         {
@@ -121,9 +120,7 @@ namespace QRTracking
                             Destroy(qrCodesObjectsList[action.qrCode.Data]);
                             qrCodesObjectsList.Remove(action.qrCode.Data);
                         }
-                        LatestQRCodeDetails.text =
-                            "Added " + action.qrCode
-                                .Data; //added to show in our QRCodePanel the data of latest QR code scanned
+                        scanningText.text = "Map Scanning...";//added to show in our QRCodePanel the data of latest QR code scanned
                     }
                     else if (action.type == ActionData.Type.Updated)
                     {
@@ -140,7 +137,7 @@ namespace QRTracking
                                 qrCodesObjectsList.Remove(action.qrCode.Data);
                             }
                             qrCodesObjectsList.Add(action.qrCode.Data, qrCodeObject);
-                            LatestQRCodeDetails.text = "Updated " + action.qrCode.Data; //updated
+                            scanningText.text = "Map Scanning..."; //updated
                         }
                     }
                     else if (action.type == ActionData.Type.Removed)
@@ -170,6 +167,26 @@ namespace QRTracking
         void Update()
         {
             HandleEvents();
+        }
+
+        public void StartScan()
+        {
+            QRCodesManager.Instance.StartQRTracking();
+            scanningText.text = "Map Scanning...";
+        }
+
+        public void StopScan()
+        {
+            foreach(var qrcode in qrCodesObjectsList)
+            {
+                
+            }
+            QRCodesManager.Instance.StopQRTracking();
+            scanningText.text = "Map Scanning Complete";
+
+            selectionScreen.SetActive(true);
+            mapScanScreen.SetActive(false);
+
         }
 
     }
