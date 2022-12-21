@@ -16,6 +16,9 @@ public class GameButtonManager : MonoBehaviour
     public GameObject mazeRunnerGameMenu;
     public GameObject selectMenu;
 
+    public GameObject player;
+    public GameObject startPoint;
+
 
     public void DodgerGameButtonOnClick()
     {
@@ -24,6 +27,8 @@ public class GameButtonManager : MonoBehaviour
 
         selectMenu.SetActive(false);
         mazeRunnerGameMenu.SetActive(false);
+
+        GameObject car = Instantiate(player, startPoint.transform.position, Quaternion.identity);
     }
     public void MazeRunnerGameButtonOnClick()
     {
