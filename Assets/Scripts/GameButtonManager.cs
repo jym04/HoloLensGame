@@ -16,10 +16,11 @@ public class GameButtonManager : MonoBehaviour
     public GameObject mazeRunnerGameMenu;
     public GameObject selectMenu;
 
-    public GameObject player;
-    public GameObject startPoint;
+    public GameObject dodgerGameMap;
 
-
+    public ObstacleObjectManager obstacleObjectManager;
+    public PlayerSpawn playerSpawn;
+    public NavigationBaker navigationBaker;
     public void DodgerGameButtonOnClick()
     {
         dodgerGameMenu.SetActive(true);
@@ -28,7 +29,9 @@ public class GameButtonManager : MonoBehaviour
         selectMenu.SetActive(false);
         mazeRunnerGameMenu.SetActive(false);
 
-        GameObject car = Instantiate(player, startPoint.transform.position, Quaternion.identity);
+        dodgerGameMap.SetActive(true);
+        navigationBaker.Baked();
+        playerSpawn.Spawn();
     }
     public void MazeRunnerGameButtonOnClick()
     {
@@ -40,16 +43,21 @@ public class GameButtonManager : MonoBehaviour
     }
     public void SpawnButtonOnClick()
     {
-
+        obstacleObjectManager.InstantiateObjects();
+    }
+    public void ResetButtonOnClick()
+    {
+        obstacleObjectManager.ResetObjects();
     }
     public void PlayButtonOnClick()
     {
 
     }
-    public void ResetButtonOnClick()
+    public void ScanButtonOnClick()
     {
 
     }
+    
     public void HomeButtonOnClick()
     {
         selectMenu.SetActive(true);

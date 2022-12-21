@@ -5,18 +5,27 @@ using UnityEngine.AI;
 
 public class NavMeshAgentController : MonoBehaviour
 {
-    public GameObject target;
+    public Transform target;
+    public Transform startPoint;
+    public Transform endPoint;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
 
     void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
+        startPoint = GameObject.FindWithTag("StartPoint").GetComponent<Transform>();
+        endPoint = GameObject.FindWithTag("EndPoint").GetComponent<Transform>();
+        target = endPoint;
 
         lineRenderer = this.GetComponent<LineRenderer>();
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = lineRenderer.endWidth = 0.01f;
         lineRenderer.material.color = Color.blue;
         lineRenderer.enabled = false;
+    }
+    private void Update()
+    {
+        MakePath();
     }
 
     public void MakePath()
@@ -39,7 +48,7 @@ public class NavMeshAgentController : MonoBehaviour
         navMeshAgent.SetDestination(target.transform.position);
         lineRenderer.SetPosition(0, this.transform.position);
 
-        while (Vector3.Distance(this.transform.position, target.transform.position) > 0.1f)
+        while (Vector3.Distance(this.transform.position, target.transform.position) > 0.01f)
         {
             lineRenderer.SetPosition(0, this.transform.position);
 
@@ -49,5 +58,13 @@ public class NavMeshAgentController : MonoBehaviour
         }
 
         lineRenderer.enabled = false;
+        if (target == startPoint)
+        {
+            target = endPoint;
+        }
+        else if (target == endPoint)
+        {
+            target = startPoint;
+        }
     }
 }

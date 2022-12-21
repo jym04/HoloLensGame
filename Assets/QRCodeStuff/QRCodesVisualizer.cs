@@ -17,7 +17,7 @@ namespace QRTracking
 
         private System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
         private bool clearExisting = false;
-        public GameObject model;
+        public GameObject mapObject;
 
         struct ActionData
         {
@@ -179,7 +179,7 @@ namespace QRTracking
         {
             foreach(var qrcode in qrCodesObjectsList)
             {
-                
+               mapObject.transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
             }
             QRCodesManager.Instance.StopQRTracking();
             scanningText.text = "Map Scanning Complete";
