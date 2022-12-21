@@ -2747,7 +2747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &418705605
 Transform:
   m_ObjectHideFlags: 0
@@ -9998,7 +9998,7 @@ MonoBehaviour:
   z_Start: 0
   columnLength: 4
   rowLength: 1
-  x_Space: 0.04
+  x_Space: 0.05
   y_Space: 0
   z_Space: 0
   obstaclePrefab: {fileID: 8618980679844371043, guid: 7801e87d6bafe4c4eb47e5ea499fe5c9, type: 3}
