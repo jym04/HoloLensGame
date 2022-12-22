@@ -9,14 +9,13 @@ public class PlayerSpawn : MonoBehaviour
 
     public void Spawn()
     {
-        GameObject car = Instantiate(player, startPoint.transform.position, Quaternion.identity);
-        Debug.Log(startPoint);
-        //StartCoroutine(SpawnPlayer());
+        StopCoroutine(SpawnPlayer());
+        StartCoroutine(SpawnPlayer());
     }
     private IEnumerator SpawnPlayer()
     {
         yield return new WaitForSeconds(2f);
 
-        
+        GameObject car = Instantiate(player, startPoint.transform.position, Quaternion.identity);
     }
 }

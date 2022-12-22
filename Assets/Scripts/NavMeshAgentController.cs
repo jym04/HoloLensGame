@@ -10,12 +10,14 @@ public class NavMeshAgentController : MonoBehaviour
     public Transform endPoint;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
+    private PlayerSpawn playerSpawn;
 
     void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         startPoint = GameObject.FindWithTag("StartPoint").GetComponent<Transform>();
         endPoint = GameObject.FindWithTag("EndPoint").GetComponent<Transform>();
+        playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         target = endPoint;
 
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -65,6 +67,15 @@ public class NavMeshAgentController : MonoBehaviour
         else if (target == endPoint)
         {
             target = startPoint;
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            playerSpawn.Spawn();
+
+            Destroy(gameObject);
         }
     }
 }

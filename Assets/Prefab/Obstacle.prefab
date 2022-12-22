@@ -218,4 +218,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bec86459cbad64b8b55d012acc3469, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boomEffect: {fileID: 0}
+  explosionPrefab: {fileID: 1760617062917137373, guid: aab2236eb0c138949bc450bf625a999d, type: 3}

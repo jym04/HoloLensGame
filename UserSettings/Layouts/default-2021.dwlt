@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Game
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 371}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 157
+  controlID: 16
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -68,8 +68,8 @@ MonoBehaviour:
     y: 0
     width: 454
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -346,22 +346,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefab
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefab
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\UVC-JYM\Documents\HoloLensGame
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c4170100
-    m_LastClickedID: 71620
-    m_ExpandedIDs: 0000000090800000928000009480000096800000988000009a8000009c8000009e800000be800000e080000000ca9a3bffffff7f
+    m_SelectedIDs: 8e840000
+    m_LastClickedID: 33934
+    m_ExpandedIDs: 0000000060840000628400006484000066840000688400006a8400006c8400006e84000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -389,7 +389,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000090800000928000009480000096800000988000009a8000009c8000009e800000
+    m_ExpandedIDs: 0000000060840000628400006484000066840000688400006a8400006c8400006e84000070840000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -517,23 +517,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 6afbfeff18fdfeff1062ffff1a62ffff2262ffff3862ffff3e62fffff868ffff4ca8ffffdebfffffeed7ffffacdcfffffedcffff70deffff8adfffffdcdfffff4ee1ffffb0e4ffff02e5ffff3eebffff28fbffff08a0000054a0000088a00000b0a00000c4a000002ea100006aa10000
+      m_SelectedIDs: 64d90000
+      m_LastClickedID: 55652
+      m_ExpandedIDs: 0cd6ffff5ed6ffff48dbffff28fbffff4a7300008273000074740000047500009a7500002677000014d700004cd70000f4da0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Obstacle(Clone)
+        m_OriginalName: Obstacle(Clone)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -4188
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 4}
       m_SearchString: 
@@ -768,9 +768,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -8.102316, y: -5.7525697, z: 11.583092}
+    m_Target: {x: 0.06441571, y: -0.27348626, z: 0.29681426}
     speed: 2
-    m_Value: {x: -8.102316, y: -5.7525697, z: 11.583092}
+    m_Value: {x: 0.06441571, y: -0.27348626, z: 0.29681426}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -817,13 +817,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.34216544, y: -0.054623753, z: 0.019964065, w: 0.9379178}
+    m_Target: {x: 0.4506871, y: -0.08671995, z: 0.04430291, w: 0.88769823}
     speed: 2
-    m_Value: {x: 0.3421399, y: -0.054619677, z: 0.019962575, w: 0.93784785}
+    m_Value: {x: 0.45054966, y: -0.0866935, z: 0.0442894, w: 0.8874275}
   m_Size:
-    m_Target: 9.208371
+    m_Target: 0.8660254
     speed: 2
-    m_Value: 9.208371
+    m_Value: 0.8660254
   m_Ortho:
     m_Target: 0
     speed: 2
