@@ -11,6 +11,8 @@ public class NavMeshAgentController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
     private PlayerSpawn playerSpawn;
+    private GameButtonManager gameButtonManager;
+    public bool arrival;
 
     void Start()
     {
@@ -18,7 +20,9 @@ public class NavMeshAgentController : MonoBehaviour
         startPoint = GameObject.FindWithTag("StartPoint").GetComponent<Transform>();
         endPoint = GameObject.FindWithTag("EndPoint").GetComponent<Transform>();
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
+        gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         target = endPoint;
+        arrival = false;
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = lineRenderer.endWidth = 0.01f;
@@ -27,12 +31,22 @@ public class NavMeshAgentController : MonoBehaviour
     }
     private void Update()
     {
-        MakePath();
+        if (!arrival)
+        {
+            MakePath();
+        }
+       
+        else if (arrival)
+        {
+            StopCoroutine(ChanageTarget());
+            StartCoroutine(ChanageTarget());
+        }
     }
 
     public void MakePath()
     {
         lineRenderer.enabled = true;
+        StopCoroutine(MakePathCoroutine());
         StartCoroutine(MakePathCoroutine());
     }
 
@@ -50,7 +64,7 @@ public class NavMeshAgentController : MonoBehaviour
         navMeshAgent.SetDestination(target.transform.position);
         lineRenderer.SetPosition(0, this.transform.position);
 
-        while (Vector3.Distance(this.transform.position, target.transform.position) > 0.01f)
+        while (navMeshAgent.remainingDistance > 0.0006f)
         {
             lineRenderer.SetPosition(0, this.transform.position);
 
@@ -58,8 +72,13 @@ public class NavMeshAgentController : MonoBehaviour
 
             yield return null;
         }
-
+        
         lineRenderer.enabled = false;
+
+        arrival = true;
+    }
+    private IEnumerator ChanageTarget()
+    {
         if (target == startPoint)
         {
             target = endPoint;
@@ -68,6 +87,11 @@ public class NavMeshAgentController : MonoBehaviour
         {
             target = startPoint;
         }
+
+        yield return new WaitForSeconds(0.1f);
+
+        arrival = false;
+
     }
     private void OnCollisionEnter(Collision collision)
     {

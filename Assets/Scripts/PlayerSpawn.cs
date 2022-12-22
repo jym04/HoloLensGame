@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject playerPrefab;
     public GameObject startPoint;
 
+    private GameObject player;
     public void Spawn()
     {
         StopCoroutine(SpawnPlayer());
@@ -16,6 +17,10 @@ public class PlayerSpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        GameObject car = Instantiate(player, startPoint.transform.position, Quaternion.identity);
+        player = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+    }
+    public void Delete()
+    {
+        Destroy(player);
     }
 }
