@@ -15,9 +15,9 @@ namespace QRTracking
         public GameObject selectionScreen;
         public TextMeshPro scanningText;
 
-        private System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
+        public System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
         private bool clearExisting = false;
-        public GameObject mapObject;
+        public GameObject[] mapObject;
 
         struct ActionData
         {
@@ -179,7 +179,8 @@ namespace QRTracking
         {
             foreach(var qrcode in qrCodesObjectsList)
             {
-               mapObject.transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
+                mapObject[0].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
+                mapObject[1].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
             }
             QRCodesManager.Instance.StopQRTracking();
             scanningText.text = "Map Scanning Complete";

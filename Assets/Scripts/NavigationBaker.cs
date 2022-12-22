@@ -12,6 +12,7 @@ public class NavigationBaker : MonoBehaviour
     {
         for (int i = 0; i < surfaces.Length; i++)
         {
+            surfaces[i].useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
             surfaces[i].BuildNavMesh();
         }
     }

@@ -64,7 +64,7 @@ public class NavMeshAgentController : MonoBehaviour
         navMeshAgent.SetDestination(target.transform.position);
         lineRenderer.SetPosition(0, this.transform.position);
 
-        while (navMeshAgent.remainingDistance > 0.0006f)
+        while (navMeshAgent.remainingDistance > 0.00006f)
         {
             lineRenderer.SetPosition(0, this.transform.position);
 

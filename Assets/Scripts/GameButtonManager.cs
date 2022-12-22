@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using QRTracking;
 
 public enum GameType
 {
@@ -17,10 +18,12 @@ public class GameButtonManager : MonoBehaviour
     public GameObject selectMenu;
 
     public GameObject dodgerGameMap;
+    public GameObject mazeRunnerGameMap;
 
     public ObstacleObjectManager obstacleObjectManager;
     public PlayerSpawn playerSpawn;
-    public NavigationBaker navigationBaker;
+    public NavigationBaker[] navigationBaker;
+
     public void DodgerGameButtonOnClick()
     {
         dodgerGameMenu.SetActive(true);
@@ -30,7 +33,7 @@ public class GameButtonManager : MonoBehaviour
         mazeRunnerGameMenu.SetActive(false);
 
         dodgerGameMap.SetActive(true);
-        navigationBaker.Baked();
+        navigationBaker[0].Baked();
         playerSpawn.Spawn();
     }
     public void MazeRunnerGameButtonOnClick()
@@ -40,6 +43,10 @@ public class GameButtonManager : MonoBehaviour
 
         selectMenu.SetActive(false);
         dodgerGameMenu.SetActive(false);
+
+        mazeRunnerGameMap.SetActive(true);
+        navigationBaker[1].Baked();
+        QRCodesManager.Instance.StartQRTracking();
     }
     public void SpawnButtonOnClick()
     {
@@ -47,23 +54,45 @@ public class GameButtonManager : MonoBehaviour
     }
     public void ResetButtonOnClick()
     {
-        obstacleObjectManager.ResetObjects();
+        if (gameType == GameType.DodgerGame)
+        {
+            obstacleObjectManager.ResetObjects();
+        }
+        else if (gameType == GameType.MazeRunnerGame)
+        {
+            QRCodesManager.Instance.StartQRTracking();
+            obstacleObjectManager.DeleteObjects();
+            playerSpawn.Delete();
+        }
+        
     }
     public void PlayButtonOnClick()
     {
-
+        obstacleObjectManager.InstantiateObjects();
+        playerSpawn.Spawn();
+        StopCoroutine(StopScanning());
+        StartCoroutine(StopScanning());
     }
-    public void ScanButtonOnClick()
+    private IEnumerator StopScanning ()
     {
+        yield return new WaitForSeconds(1f);
 
+        QRCodesManager.Instance.StopQRTracking();
     }
     
     public void HomeButtonOnClick()
     {
         selectMenu.SetActive(true);
         gameType = GameType.None;
+        dodgerGameMap.SetActive(false);
+        mazeRunnerGameMap.SetActive(false);
+
+        playerSpawn.Delete();
+
+        obstacleObjectManager.DeleteObjects();
 
         dodgerGameMenu.SetActive(false);
+        
         mazeRunnerGameMenu.SetActive(false);
     }
 }

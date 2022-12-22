@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using QRTracking;
+using TMPro;
 
 public class ObstacleObjectManager : MonoBehaviour
 {
@@ -11,6 +13,11 @@ public class ObstacleObjectManager : MonoBehaviour
     public GameObject obstaclesPlace;
     public GameObject obstaclesCollection;
 
+    public GameButtonManager gameManager;
+    public QRCodesVisualizer qrCodesVisualizer;
+    public GameObject[] testQRCodePosition;
+
+    public TMP_Text qrcodelist;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,14 +31,31 @@ public class ObstacleObjectManager : MonoBehaviour
     }
     public void InstantiateObjects()
     {
-        for(int i = 0; i < columnLength; i++)
+        if (gameManager.gameType == GameType.DodgerGame)
         {
-            Instantiate(obstaclePrefab,
-                new Vector3(obstaclesPlace.transform.position.x + x_Start + x_Space * (i % columnLength),
-                obstaclesPlace.transform.position.y + y_Start + y_Space * (i % columnLength),
-                obstaclesPlace.transform.position.z + z_Start + z_Space * (i % columnLength)),
-                Quaternion.identity, obstaclesCollection.transform);
+            for (int i = 0; i < columnLength; i++)
+            {
+                GameObject obstacle = Instantiate(obstaclePrefab,
+                    new Vector3(obstaclesPlace.transform.position.x + x_Start + x_Space * (i % columnLength),
+                    obstaclesPlace.transform.position.y + y_Start + y_Space * (i % columnLength),
+                    obstaclesPlace.transform.position.z + z_Start + z_Space * (i % columnLength)),
+                    Quaternion.identity, obstaclesCollection.transform);
+            }
         }
+        else if (gameManager.gameType == GameType.MazeRunnerGame)
+        {
+            
+            //foreach(var qrcode in testQRCodePosition)
+            //{
+            //    Instantiate(obstaclePrefab, qrcode.gameObject.transform.position, Quaternion.identity, obstaclesCollection.transform);
+            //}
+            foreach (var qrcode in qrCodesVisualizer.qrCodesObjectsList)
+            {
+                Instantiate(obstaclePrefab, qrcode.Value.gameObject.transform.localPosition, Quaternion.identity, obstaclesCollection.transform);
+                qrcodelist.text = "qrcode Count : " + qrCodesVisualizer.qrCodesObjectsList.Count;
+            }
+        }
+        
     }
     public void DeleteObjects()
     {
