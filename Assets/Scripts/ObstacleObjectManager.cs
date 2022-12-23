@@ -51,7 +51,7 @@ public class ObstacleObjectManager : MonoBehaviour
             //}
             foreach (var qrcode in qrCodesVisualizer.qrCodesObjectsList)
             {
-                Instantiate(obstaclePrefab, qrcode.Value.gameObject.transform.localPosition, Quaternion.identity, obstaclesCollection.transform);
+                Instantiate(obstaclePrefab, new Vector3(qrcode.Value.gameObject.transform.localPosition.x, qrcode.Value.gameObject.transform.localPosition.y+0.02f, qrcode.Value.gameObject.transform.localPosition.z), Quaternion.identity, obstaclesCollection.transform);
                 qrcodelist.text = "qrcode Count : " + qrCodesVisualizer.qrCodesObjectsList.Count;
             }
         }
