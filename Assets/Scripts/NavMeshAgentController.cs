@@ -12,7 +12,6 @@ public class NavMeshAgentController : MonoBehaviour
     private LineRenderer lineRenderer;
     private PlayerSpawn playerSpawn;
     private GameButtonManager gameButtonManager;
-    public bool arrival;
 
     void Start()
     {
@@ -22,7 +21,6 @@ public class NavMeshAgentController : MonoBehaviour
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         target = endPoint;
-        arrival = false;
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = lineRenderer.endWidth = 0.01f;
@@ -31,16 +29,9 @@ public class NavMeshAgentController : MonoBehaviour
     }
     private void Update()
     {
-        if (!arrival)
-        {
-            MakePath();
-        }
-       
-        else if (arrival)
-        {
-            StopCoroutine(ChanageTarget());
-            StartCoroutine(ChanageTarget());
-        }
+        MakePath();
+        ChangeTarget();
+        
     }
 
     public void MakePath()
@@ -72,26 +63,22 @@ public class NavMeshAgentController : MonoBehaviour
 
             yield return null;
         }
-        
+
         lineRenderer.enabled = false;
 
-        arrival = true;
     }
-    private IEnumerator ChanageTarget()
+    private void ChangeTarget()
     {
-        if (target == startPoint)
+        if (!navMeshAgent.pathPending)
         {
-            target = endPoint;
+            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            {
+                if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                {
+                    target = target == endPoint ? startPoint : endPoint;
+                }
+            }
         }
-        else if (target == endPoint)
-        {
-            target = startPoint;
-        }
-
-        yield return new WaitForSeconds(0.05f);
-
-        arrival = false;
-
     }
     private void OnCollisionEnter(Collision collision)
     {
