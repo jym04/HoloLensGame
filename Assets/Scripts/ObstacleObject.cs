@@ -5,6 +5,7 @@ using UnityEngine;
 public class ObstacleObject : MonoBehaviour
 {
     public GameObject explosionPrefab;
+    public Rigidbody rigid;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -16,6 +17,5 @@ public class ObstacleObject : MonoBehaviour
 
             Destroy(gameObject);
         }
-        
     }
 }

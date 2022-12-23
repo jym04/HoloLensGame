@@ -219,3 +219,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 1760617062917137373, guid: aab2236eb0c138949bc450bf625a999d, type: 3}
+  rigid: {fileID: 7167379863132558689}

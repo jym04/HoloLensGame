@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class NavMeshAgentController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class NavMeshAgentController : MonoBehaviour
     private LineRenderer lineRenderer;
     private PlayerSpawn playerSpawn;
     private GameButtonManager gameButtonManager;
+
+    public TMP_Text pathStatus;
+    public TMP_Text moveDistance;
 
     void Start()
     {
@@ -31,7 +35,7 @@ public class NavMeshAgentController : MonoBehaviour
     {
         MakePath();
         ChangeTarget();
-        
+        UpdateUI();
     }
 
     public void MakePath()
@@ -79,6 +83,11 @@ public class NavMeshAgentController : MonoBehaviour
                 }
             }
         }
+    }
+    private void UpdateUI()
+    {
+        pathStatus.text = navMeshAgent.hasPath ? "Path Status : Complete" : "Path Status : None";
+        moveDistance.text = navMeshAgent.hasPath ? "Move Distance : " + navMeshAgent.remainingDistance.ToString("F2") : "Move Distance : None";
     }
     private void OnCollisionEnter(Collision collision)
     {

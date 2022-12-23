@@ -1269,7 +1269,7 @@ NavMeshAgent:
   avoidancePriority: 0
   m_AngularSpeed: 180
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 0.3
@@ -1291,7 +1291,8 @@ MonoBehaviour:
   target: {fileID: 0}
   startPoint: {fileID: 0}
   endPoint: {fileID: 0}
-  arrival: 0
+  pathStatus: {fileID: 1573307463744031971}
+  moveDistance: {fileID: 7479721224065615870}
 --- !u!120 &7701984874116620836
 LineRenderer:
   m_ObjectHideFlags: 0

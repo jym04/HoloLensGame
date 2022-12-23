@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Spawn
   - GameManager
+  - Map
   layers:
   - Default
   - TransparentFX
