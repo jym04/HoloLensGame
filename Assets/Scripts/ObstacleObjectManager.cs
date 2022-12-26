@@ -17,18 +17,7 @@ public class ObstacleObjectManager : MonoBehaviour
     public QRCodesVisualizer qrCodesVisualizer;
     public GameObject[] testQRCodePosition;
 
-    public TMP_Text qrcodelist;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //public TMP_Text qrcodelist; //디버그 테스트
     public void InstantiateObjects()
     {
         if (gameManager.gameType == GameType.DodgerGame)
@@ -44,15 +33,17 @@ public class ObstacleObjectManager : MonoBehaviour
         }
         else if (gameManager.gameType == GameType.MazeRunnerGame)
         {
-            
+            //Unity Editor 용 코드
             //foreach(var qrcode in testQRCodePosition)
             //{
             //    Instantiate(obstaclePrefab, qrcode.gameObject.transform.position, Quaternion.identity, obstaclesCollection.transform);
             //}
+
+            //HoloLens 용 코드
             foreach (var qrcode in qrCodesVisualizer.qrCodesObjectsList)
             {
                 Instantiate(obstaclePrefab, new Vector3(qrcode.Value.gameObject.transform.localPosition.x, qrcode.Value.gameObject.transform.localPosition.y+0.02f, qrcode.Value.gameObject.transform.localPosition.z), Quaternion.identity, obstaclesCollection.transform);
-                qrcodelist.text = "qrcode Count : " + qrCodesVisualizer.qrCodesObjectsList.Count;
+                //qrcodelist.text = "qrcode Count : " + qrCodesVisualizer.qrCodesObjectsList.Count;
             }
         }
         

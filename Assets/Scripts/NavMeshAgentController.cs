@@ -11,8 +11,9 @@ public class NavMeshAgentController : MonoBehaviour
     public Transform endPoint;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
+    float extraRotationSpeed = 5f;
+
     private PlayerSpawn playerSpawn;
-    private GameButtonManager gameButtonManager;
 
     public TMP_Text pathStatus;
     public TMP_Text moveDistance;
@@ -23,7 +24,6 @@ public class NavMeshAgentController : MonoBehaviour
         startPoint = GameObject.FindWithTag("StartPoint").GetComponent<Transform>();
         endPoint = GameObject.FindWithTag("EndPoint").GetComponent<Transform>();
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
-        gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         target = endPoint;
 
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -36,6 +36,7 @@ public class NavMeshAgentController : MonoBehaviour
         MakePath();
         ChangeTarget();
         UpdateUI();
+        UpdateRotate();
     }
 
     public void MakePath()
@@ -88,6 +89,11 @@ public class NavMeshAgentController : MonoBehaviour
     {
         pathStatus.text = navMeshAgent.hasPath ? "Path Status : Complete" : "Path Status : None";
         moveDistance.text = navMeshAgent.hasPath ? "Move Distance : " + navMeshAgent.remainingDistance.ToString("F2") : "Move Distance : None";
+    }
+    private void UpdateRotate()
+    {
+        Vector3 lookrotation = navMeshAgent.steeringTarget - transform.position;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
     }
     private void OnCollisionEnter(Collision collision)
     {
