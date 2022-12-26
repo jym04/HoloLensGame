@@ -11,7 +11,7 @@ public class NavMeshAgentController : MonoBehaviour
     public Transform endPoint;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
-    float extraRotationSpeed = 5f;
+    private float extraRotationSpeed = 5f;
 
     private PlayerSpawn playerSpawn;
 
@@ -105,7 +105,7 @@ public class NavMeshAgentController : MonoBehaviour
         {
             playerSpawn.Spawn();
 
-            Destroy(gameObject);
+            playerSpawn.Delete();
         }
     }
 }

@@ -8,6 +8,8 @@ public class PlayerSpawn : MonoBehaviour
     public GameObject startPoint;
 
     private GameObject player;
+
+    public GameButtonManager gameButtonManager;
     public void Spawn()
     {
         StopCoroutine(SpawnPlayer());
@@ -17,7 +19,10 @@ public class PlayerSpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        player = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+        if (gameButtonManager.gameType != GameType.None)
+        {
+            player = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+        }
     }
     public void Delete()
     {

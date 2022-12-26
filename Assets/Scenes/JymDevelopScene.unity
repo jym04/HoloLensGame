@@ -636,6 +636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7843031073641496876, guid: f3f68d9bf222bde469ce1863884c3f84, type: 3}
   startPoint: {fileID: 442554065}
+  gameButtonManager: {fileID: 869270314}
 --- !u!1 &100906421
 GameObject:
   m_ObjectHideFlags: 0
