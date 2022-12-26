@@ -16,7 +16,9 @@ public class NavMeshAgentController : MonoBehaviour
     private PlayerSpawn playerSpawn;
 
     public TMP_Text pathStatus;
-    public TMP_Text moveDistance;
+    public TMP_Text movedDistance;
+    public TMP_Text workingTime;
+    private float workTime;
 
     void Start()
     {
@@ -67,6 +69,8 @@ public class NavMeshAgentController : MonoBehaviour
             DrawRoute();
 
             yield return null;
+
+            
         }
 
         lineRenderer.enabled = false;
@@ -87,8 +91,11 @@ public class NavMeshAgentController : MonoBehaviour
     }
     private void UpdateUI()
     {
+
         pathStatus.text = navMeshAgent.hasPath ? "Path Status : Complete" : "Path Status : None";
-        moveDistance.text = navMeshAgent.hasPath ? "Move Distance : " + navMeshAgent.remainingDistance.ToString("F2") : "Move Distance : None";
+        movedDistance.text = navMeshAgent.hasPath ? "Move Distance : " + navMeshAgent.remainingDistance.ToString("F2") : "Move Distance : 0.00";
+        workTime = navMeshAgent.hasPath ? workTime += Time.deltaTime : 0f;
+        workingTime.text = "Working Time : " + workTime.ToString("F2");
     }
     private void UpdateRotate()
     {
