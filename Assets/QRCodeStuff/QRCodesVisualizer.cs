@@ -181,10 +181,6 @@ namespace QRTracking
             {
                 mapObject[0].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
                 mapObject[1].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
-
-                mapObject[0].transform.localRotation = Quaternion.identity;
-
-                mapObject[1].transform.localRotation = Quaternion.identity;
             }
             QRCodesManager.Instance.StopQRTracking();
             scanningText.text = "Map Scanning Complete";

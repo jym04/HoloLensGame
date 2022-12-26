@@ -68,10 +68,13 @@ public class GameButtonManager : MonoBehaviour
     }
     public void PlayButtonOnClick()
     {
-        obstacleObjectManager.InstantiateObjects();
-        playerSpawn.Spawn();
-        StopCoroutine(StopScanning());
-        StartCoroutine(StopScanning());
+        if (GameObject.FindWithTag("Player") == null)
+        {
+            obstacleObjectManager.InstantiateObjects();
+            playerSpawn.Spawn();
+            StopCoroutine(StopScanning());
+            StartCoroutine(StopScanning());
+        }
     }
     private IEnumerator StopScanning ()
     {

@@ -69,8 +69,6 @@ public class NavMeshAgentController : MonoBehaviour
             DrawRoute();
 
             yield return null;
-
-            
         }
 
         lineRenderer.enabled = false;
@@ -91,7 +89,6 @@ public class NavMeshAgentController : MonoBehaviour
     }
     private void UpdateUI()
     {
-
         pathStatus.text = navMeshAgent.hasPath ? "Path Status : Complete" : "Path Status : None";
         movedDistance.text = navMeshAgent.hasPath ? "Move Distance : " + navMeshAgent.remainingDistance.ToString("F2") : "Move Distance : 0.00";
         workTime = navMeshAgent.hasPath ? workTime += Time.deltaTime : 0f;
