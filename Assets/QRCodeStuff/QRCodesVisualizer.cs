@@ -19,6 +19,8 @@ namespace QRTracking
         private bool clearExisting = false;
         public GameObject[] mapObject;
 
+        public GameButtonManager gameButtonManager;
+
         struct ActionData
         {
             public enum Type
@@ -48,6 +50,7 @@ namespace QRTracking
         void Start()
         {
             Debug.Log("QRCodesVisualizer start");
+            scanningText.text = "Start Scan 버튼을 눌러주세요";
             qrCodesObjectsList = new SortedDictionary<string, GameObject>();
 
             // listen to any event changes on QRCOdeManager
@@ -120,7 +123,6 @@ namespace QRTracking
                             Destroy(qrCodesObjectsList[action.qrCode.Data]);
                             qrCodesObjectsList.Remove(action.qrCode.Data);
                         }
-                        scanningText.text = "Map Scanning...";//added to show in our QRCodePanel the data of latest QR code scanned
                     }
                     else if (action.type == ActionData.Type.Updated)
                     {
@@ -137,7 +139,6 @@ namespace QRTracking
                                 qrCodesObjectsList.Remove(action.qrCode.Data);
                             }
                             qrCodesObjectsList.Add(action.qrCode.Data, qrCodeObject);
-                            scanningText.text = "Map Scanning..."; //updated
                         }
                     }
                     else if (action.type == ActionData.Type.Removed)
@@ -167,12 +168,20 @@ namespace QRTracking
         void Update()
         {
             HandleEvents();
+            ScanQRCode();
+        }
+        private void ScanQRCode()
+        {
+            if (qrCodesObjectsList.Count > 0)
+            {
+                scanningText.text = "스캔이 완료되었습니다, Stop Scan 을 눌러주세요.";
+            }
         }
 
         public void StartScan()
         {
             QRCodesManager.Instance.StartQRTracking();
-            scanningText.text = "Map Scanning...";
+            scanningText.text = "QRCode 를 바라봐 주세요.";
         }
 
         public void StopScan()
