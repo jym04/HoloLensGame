@@ -24,6 +24,7 @@ public class GameButtonManager : MonoBehaviour
     public PlayerSpawn playerSpawn;
     public NavigationBaker[] navigationBaker;
 
+    
     public void DodgerGameButtonOnClick()
     {
         dodgerGameMenu.SetActive(true);

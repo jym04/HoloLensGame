@@ -10,7 +10,7 @@ TagManager:
   - Spawn
   - GameManager
   - Map
-  - QRCode
+  - FixedButton
   layers:
   - Default
   - TransparentFX
