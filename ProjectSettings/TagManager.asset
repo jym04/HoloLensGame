@@ -4,13 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - StartPoint
-  - EndPoint
   - Obstacle
   - Spawn
   - GameManager
   - Map
   - FixedButton
+  - Point
   layers:
   - Default
   - TransparentFX

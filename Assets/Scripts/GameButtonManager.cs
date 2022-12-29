@@ -35,6 +35,7 @@ public class GameButtonManager : MonoBehaviour
 
         dodgerGameMap.SetActive(true);
         navigationBaker[0].Baked();
+        playerSpawn.player = new GameObject[5];
         playerSpawn.Spawn();
     }
     public void MazeRunnerGameButtonOnClick()
@@ -47,6 +48,7 @@ public class GameButtonManager : MonoBehaviour
 
         mazeRunnerGameMap.SetActive(true);
         navigationBaker[1].Baked();
+        playerSpawn.player = new GameObject[1];
         QRCodesManager.Instance.StartQRTracking();
     }
     public void SpawnButtonOnClick()
@@ -83,7 +85,7 @@ public class GameButtonManager : MonoBehaviour
 
         QRCodesManager.Instance.StopQRTracking();
     }
-    
+
     public void HomeButtonOnClick()
     {
         selectMenu.SetActive(true);
@@ -92,11 +94,13 @@ public class GameButtonManager : MonoBehaviour
         mazeRunnerGameMap.SetActive(false);
 
         playerSpawn.Delete();
+        playerSpawn.player = new GameObject[0];
 
         obstacleObjectManager.DeleteObjects();
 
         dodgerGameMenu.SetActive(false);
         
         mazeRunnerGameMenu.SetActive(false);
+        
     }
 }

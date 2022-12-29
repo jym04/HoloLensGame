@@ -7,13 +7,13 @@ using TMPro;
 public class NavMeshAgentController : MonoBehaviour
 {
     public Transform target;
-    public Transform startPoint;
-    public Transform endPoint;
+    public GameObject[] Point;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
     private float extraRotationSpeed = 5f;
 
     private PlayerSpawn playerSpawn;
+    private GameButtonManager gameButtonManager;
 
     public TMP_Text pathStatus;
     public TMP_Text movedDistance;
@@ -23,14 +23,13 @@ public class NavMeshAgentController : MonoBehaviour
     void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
-        startPoint = GameObject.FindWithTag("StartPoint").GetComponent<Transform>();
-        endPoint = GameObject.FindWithTag("EndPoint").GetComponent<Transform>();
+        Point = GameObject.FindGameObjectsWithTag("Point");
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
-        target = endPoint;
+        gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
+        target = Point[1].transform;
 
         lineRenderer = this.GetComponent<LineRenderer>();
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.01f;
-        lineRenderer.material.color = Color.blue;
+        lineRenderer.startWidth = lineRenderer.endWidth = 0.005f;
         lineRenderer.enabled = false;
     }
     private void Update()
@@ -82,7 +81,29 @@ public class NavMeshAgentController : MonoBehaviour
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                 {
-                    target = target == endPoint ? startPoint : endPoint;
+                    if (gameButtonManager.gameType == GameType.DodgerGame)
+                    {
+                        if (target == Point[0].transform)
+                        {
+                            target = Point[1].transform;
+                        }
+                        else if (target == Point[1].transform)
+                        {
+                            target = Point[2].transform;
+                        }
+                        else if (target == Point[2].transform)
+                        {
+                            target = Point[3].transform;
+                        }
+                        else if (target == Point[3].transform)
+                        {
+                            target = Point[0].transform;
+                        }
+                    }
+                    else if (gameButtonManager.gameType == GameType.MazeRunnerGame)
+                    {
+                        target = target == Point[1].transform ? Point[0].transform : Point[1].transform;
+                    }
                 }
             }
         }
@@ -105,7 +126,7 @@ public class NavMeshAgentController : MonoBehaviour
         {
             playerSpawn.Spawn();
 
-            playerSpawn.Delete();
+            Destroy(gameObject);
         }
     }
 }

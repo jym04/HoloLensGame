@@ -7,7 +7,9 @@ public class PlayerSpawn : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject startPoint;
 
-    private GameObject player;
+    public GameObject[] player = new GameObject[5];
+
+    public int playerMaxCount;
 
     public GameButtonManager gameButtonManager;
     public void Spawn()
@@ -15,17 +17,35 @@ public class PlayerSpawn : MonoBehaviour
         StopCoroutine(SpawnPlayer());
         StartCoroutine(SpawnPlayer());
     }
-    private IEnumerator SpawnPlayer()
+    public IEnumerator SpawnPlayer()
     {
         yield return new WaitForSeconds(2f);
 
         if (gameButtonManager.gameType != GameType.None)
         {
-            player = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+            playerMaxCount = gameButtonManager.gameType == GameType.DodgerGame ? 5 : 1;
+
+            for (int index = 0; index < player.Length; index++)
+            {
+                if (player[index] == null)
+                {
+                    Debug.Log(index);
+                    player[index] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+                }
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
     public void Delete()
     {
-        Destroy(player);
+        
+        for(int i = 0; i < playerMaxCount; i++)
+        {
+            if (player[i] != null)
+            {
+                Destroy(player[i]);
+            }
+        }
+        player = new GameObject[5];
     }
 }

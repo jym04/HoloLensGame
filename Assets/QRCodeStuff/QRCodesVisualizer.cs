@@ -19,8 +19,6 @@ namespace QRTracking
         private bool clearExisting = false;
         public GameObject[] mapObject;
 
-        public GameButtonManager gameButtonManager;
-
         struct ActionData
         {
             public enum Type
