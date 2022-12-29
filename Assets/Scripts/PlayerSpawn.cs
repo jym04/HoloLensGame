@@ -6,6 +6,8 @@ public class PlayerSpawn : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject startPoint;
+    public GameObject dodgerStartPoint;
+    public GameObject mazeRunnerStartPoint;
 
     public GameObject[] player = new GameObject[5];
 
@@ -24,6 +26,7 @@ public class PlayerSpawn : MonoBehaviour
         if (gameButtonManager.gameType != GameType.None)
         {
             playerMaxCount = gameButtonManager.gameType == GameType.DodgerGame ? 5 : 1;
+            startPoint = gameButtonManager.gameType == GameType.DodgerGame ? dodgerStartPoint : mazeRunnerStartPoint;
 
             for (int index = 0; index < player.Length; index++)
             {
@@ -32,7 +35,7 @@ public class PlayerSpawn : MonoBehaviour
                     Debug.Log(index);
                     player[index] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
                 }
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(2f);
             }
         }
     }
@@ -46,6 +49,6 @@ public class PlayerSpawn : MonoBehaviour
                 Destroy(player[i]);
             }
         }
-        player = new GameObject[5];
+        player = gameButtonManager.gameType == GameType.DodgerGame ? new GameObject[5] : new GameObject[1];
     }
 }

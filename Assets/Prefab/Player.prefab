@@ -1420,7 +1420,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!195 &6352521237532197045
 NavMeshAgent:
@@ -1437,7 +1437,7 @@ NavMeshAgent:
   avoidancePriority: 0
   m_AngularSpeed: 180
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 0
+  m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 0.3
@@ -1456,9 +1456,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fada0cfa79cbcec4f88f0fba4a13044c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: 0
   target: {fileID: 0}
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
+  Point: []
   pathStatus: {fileID: 1957085288080014796}
   movedDistance: {fileID: 3896983661642446440}
   workingTime: {fileID: 4204646192103919390}
