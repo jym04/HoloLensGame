@@ -8,6 +8,7 @@ public enum PlayerStatus
 {
     Start,
     Move,
+    Stop,
     Rotate
 }
 public class NavMeshAgentController : MonoBehaviour
@@ -18,16 +19,17 @@ public class NavMeshAgentController : MonoBehaviour
     public GameObject[] Point;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
+    public GameObject movementObjectCollection;
     private float extraRotationSpeed = 10f;
 
     private PlayerSpawn playerSpawn;
     private GameButtonManager gameButtonManager;
+    private MovementObjectManager movementObjectManager;
 
     public TMP_Text pathStatus;
     public TMP_Text movedDistance;
     public TMP_Text workingTime;
     private float workTime;
-    private bool isRotate;
 
     void Start()
     {
@@ -35,6 +37,8 @@ public class NavMeshAgentController : MonoBehaviour
         Point = GameObject.FindGameObjectsWithTag("Point");
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
+        movementObjectManager = GameObject.FindWithTag("SpawnObject").GetComponent<MovementObjectManager>();
+        movementObjectManager.SpawnObject();
         target = Point[1].transform;
 
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -45,10 +49,12 @@ public class NavMeshAgentController : MonoBehaviour
     {
         switch (playerStatus)
         {
-            case PlayerStatus.Start: UpdateRotate(); break;
-            case PlayerStatus.Move: MakePath(); ChangeTarget(); break;
+            case PlayerStatus.Start: playerStatus = PlayerStatus.Rotate; break;
+            case PlayerStatus.Move: MakePath(); break;
+            case PlayerStatus.Stop:ChangeTarget();break;
             case PlayerStatus.Rotate: UpdateRotate(); break;
         }
+        UpdateUI();
     }
 
     public void MakePath()
@@ -56,6 +62,7 @@ public class NavMeshAgentController : MonoBehaviour
         lineRenderer.enabled = true;
         StopCoroutine(MakePathCoroutine());
         StartCoroutine(MakePathCoroutine());
+        playerStatus = PlayerStatus.Stop;
     }
 
     void DrawRoute()
@@ -97,6 +104,7 @@ public class NavMeshAgentController : MonoBehaviour
                         if (target == Point[0].transform)
                         {
                             target = Point[1].transform;
+                            movementObjectManager.SpawnObject();
                         }
                         else if (target == Point[1].transform)
                         {
@@ -113,6 +121,8 @@ public class NavMeshAgentController : MonoBehaviour
                         else if (target == Point[4].transform)
                         {
                             target = Point[5].transform;
+                            Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
+                            movementObjectManager.arriveCount += 1;
                         }
                         else if (target == Point[5].transform)
                         {
@@ -139,13 +149,19 @@ public class NavMeshAgentController : MonoBehaviour
     private void UpdateRotate()
     {
         Vector3 lookrotation = target.position - transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
 
-        float angle = Quaternion.Angle(transform.rotation,Quaternion.LookRotation(lookrotation));
-        if (angle <= 2)
-        {
-            playerStatus = PlayerStatus.Move;
-        }
+        Quaternion test = Quaternion.LookRotation(lookrotation);
+        Quaternion test1 = transform.rotation;
+
+        StopCoroutine(RotateDelay());
+        StartCoroutine(RotateDelay());
+    }
+    private IEnumerator RotateDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        playerStatus = PlayerStatus.Move;
     }
     private void OnCollisionEnter(Collision collision)
     {

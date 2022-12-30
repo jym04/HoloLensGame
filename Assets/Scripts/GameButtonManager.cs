@@ -22,6 +22,8 @@ public class GameButtonManager : MonoBehaviour
 
     public ObstacleObjectManager obstacleObjectManager;
     public PlayerSpawn playerSpawn;
+    public MovementObjectManager movementObjectManager;
+
     public NavigationBaker[] navigationBaker;
 
     
@@ -94,9 +96,11 @@ public class GameButtonManager : MonoBehaviour
         mazeRunnerGameMap.SetActive(false);
 
         playerSpawn.Delete();
+        playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
         playerSpawn.player = new GameObject[0];
 
         obstacleObjectManager.DeleteObjects();
+        movementObjectManager.DeleteObjects();
 
         dodgerGameMenu.SetActive(false);
         

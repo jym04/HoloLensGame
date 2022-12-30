@@ -13,6 +13,8 @@ public class PlayerSpawn : MonoBehaviour
 
     public int playerMaxCount;
 
+    public bool isarrive;
+
     public GameButtonManager gameButtonManager;
     public void Spawn()
     {
@@ -35,7 +37,7 @@ public class PlayerSpawn : MonoBehaviour
                     Debug.Log(index);
                     player[index] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
                 }
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(2.5f);
             }
         }
     }
@@ -44,7 +46,7 @@ public class PlayerSpawn : MonoBehaviour
         
         for(int i = 0; i < playerMaxCount; i++)
         {
-            if (player[i] != null)
+            if (player.Length != 0)
             {
                 Destroy(player[i]);
             }
