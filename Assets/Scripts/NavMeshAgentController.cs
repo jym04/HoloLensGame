@@ -45,13 +45,13 @@ public class NavMeshAgentController : MonoBehaviour
         lineRenderer.startWidth = lineRenderer.endWidth = 0.005f;
         lineRenderer.enabled = false;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         switch (playerStatus)
         {
             case PlayerStatus.Start: playerStatus = PlayerStatus.Rotate; break;
             case PlayerStatus.Move: MakePath(); break;
-            case PlayerStatus.Stop:ChangeTarget();break;
+            case PlayerStatus.Stop: ChangeTarget(); break;
             case PlayerStatus.Rotate: UpdateRotate(); break;
         }
         UpdateUI();
@@ -59,10 +59,10 @@ public class NavMeshAgentController : MonoBehaviour
 
     public void MakePath()
     {
+        navMeshAgent.enabled = true;
         lineRenderer.enabled = true;
         StopCoroutine(MakePathCoroutine());
         StartCoroutine(MakePathCoroutine());
-        playerStatus = PlayerStatus.Stop;
     }
 
     void DrawRoute()
@@ -77,19 +77,23 @@ public class NavMeshAgentController : MonoBehaviour
     IEnumerator MakePathCoroutine()
     {
         navMeshAgent.SetDestination(target.transform.position);
-        
+
         lineRenderer.SetPosition(0, this.transform.position);
 
-        while (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
+        while (navMeshAgent.hasPath)
         {
             lineRenderer.SetPosition(0, this.transform.position);
+
+            Vector3 lookrotation = navMeshAgent.steeringTarget - transform.position;
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), Time.deltaTime);
 
             DrawRoute();
 
             yield return null;
         }
+        playerStatus = PlayerStatus.Stop;
         lineRenderer.enabled = false;
-        
     }
     private void ChangeTarget()
     {
@@ -149,10 +153,7 @@ public class NavMeshAgentController : MonoBehaviour
     private void UpdateRotate()
     {
         Vector3 lookrotation = target.position - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
-
-        Quaternion test = Quaternion.LookRotation(lookrotation);
-        Quaternion test1 = transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
 
         StopCoroutine(RotateDelay());
         StartCoroutine(RotateDelay());
