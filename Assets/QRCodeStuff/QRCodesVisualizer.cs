@@ -11,14 +11,13 @@ namespace QRTracking
     {
         public GameObject qrCodePrefab;
 
-        public GameObject StepHandlerPanel;
-        public TextMeshPro LatestQRCodeDetails;
+        public GameObject mapScanScreen;
+        public GameObject selectionScreen;
+        public TextMeshPro scanningText;
 
-        private System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
+        public System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
         private bool clearExisting = false;
-        public GameObject model;
-
-        public TextMeshPro statusText;
+        public GameObject[] mapObject;
 
         struct ActionData
         {
@@ -49,6 +48,7 @@ namespace QRTracking
         void Start()
         {
             Debug.Log("QRCodesVisualizer start");
+            scanningText.text = "Start Scan 버튼을 눌러주세요";
             qrCodesObjectsList = new SortedDictionary<string, GameObject>();
 
             // listen to any event changes on QRCOdeManager
@@ -121,9 +121,6 @@ namespace QRTracking
                             Destroy(qrCodesObjectsList[action.qrCode.Data]);
                             qrCodesObjectsList.Remove(action.qrCode.Data);
                         }
-                        LatestQRCodeDetails.text =
-                            "Added " + action.qrCode
-                                .Data; //added to show in our QRCodePanel the data of latest QR code scanned
                     }
                     else if (action.type == ActionData.Type.Updated)
                     {
@@ -140,7 +137,6 @@ namespace QRTracking
                                 qrCodesObjectsList.Remove(action.qrCode.Data);
                             }
                             qrCodesObjectsList.Add(action.qrCode.Data, qrCodeObject);
-                            LatestQRCodeDetails.text = "Updated " + action.qrCode.Data; //updated
                         }
                     }
                     else if (action.type == ActionData.Type.Removed)
@@ -170,6 +166,35 @@ namespace QRTracking
         void Update()
         {
             HandleEvents();
+            ScanQRCode();
+        }
+        private void ScanQRCode()
+        {
+            if (qrCodesObjectsList.Count > 0)
+            {
+                scanningText.text = "스캔이 완료되었습니다, Stop Scan 을 눌러주세요.";
+            }
+        }
+
+        public void StartScan()
+        {
+            QRCodesManager.Instance.StartQRTracking();
+            scanningText.text = "QRCode 를 바라봐 주세요.";
+        }
+
+        public void StopScan()
+        {
+            foreach(var qrcode in qrCodesObjectsList)
+            {
+                mapObject[0].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
+                mapObject[1].transform.localPosition = qrcode.Value.gameObject.transform.localPosition;
+            }
+            QRCodesManager.Instance.StopQRTracking();
+            scanningText.text = "Map Scanning Complete";
+
+            selectionScreen.SetActive(true);
+            mapScanScreen.SetActive(false);
+
         }
 
     }
