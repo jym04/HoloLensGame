@@ -42,7 +42,7 @@ public class NavMeshAgentController : MonoBehaviour
         target = Point[1].transform;
 
         lineRenderer = this.GetComponent<LineRenderer>();
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.005f;
+        lineRenderer.startWidth = lineRenderer.endWidth = 0.003f;
         lineRenderer.enabled = false;
     }
     private void FixedUpdate()
@@ -136,7 +136,17 @@ public class NavMeshAgentController : MonoBehaviour
                     }
                     else if (gameButtonManager.gameType == GameType.MazeRunnerGame)
                     {
-                        target = target == Point[1].transform ? Point[0].transform : Point[1].transform;
+                        if (target == Point[0].transform)
+                        {
+                            target = Point[1].transform;
+                        }
+                        else if (target == Point[1].transform)
+                        {
+                            target = Point[0].transform;
+                            Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
+                            movementObjectManager.arriveCount += 1;
+                            movementObjectManager.SpawnObject();
+                        }
                         playerStatus = PlayerStatus.Rotate;
                     }
                 }

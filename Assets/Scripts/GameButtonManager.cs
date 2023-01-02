@@ -25,7 +25,6 @@ public class GameButtonManager : MonoBehaviour
     public MovementObjectManager movementObjectManager;
 
     public NavigationBaker[] navigationBaker;
-
     
     public void DodgerGameButtonOnClick()
     {
