@@ -645,7 +645,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6733797419962990687, guid: 9f481352e2f56bd41b4e20ec276d55a9, type: 3}
 --- !u!1 &4676143679725837494
@@ -1452,7 +1452,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!195 &6352521237532197045
 NavMeshAgent:
@@ -1464,10 +1464,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0.3
+  m_Speed: 0.25
   m_Acceleration: 8
   avoidancePriority: 0
-  m_AngularSpeed: 500
+  m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
