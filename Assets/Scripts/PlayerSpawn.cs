@@ -9,7 +9,7 @@ public class PlayerSpawn : MonoBehaviour
     public GameObject dodgerStartPoint;
     public GameObject mazeRunnerStartPoint;
 
-    public GameObject[] player = new GameObject[5];
+    public GameObject[] player;
 
     public int playerMaxCount;
 
@@ -43,7 +43,6 @@ public class PlayerSpawn : MonoBehaviour
     }
     public void Delete()
     {
-        
         for(int i = 0; i < playerMaxCount; i++)
         {
             if (player.Length != 0)
