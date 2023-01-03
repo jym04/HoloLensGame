@@ -90,13 +90,21 @@ public class GameButtonManager : MonoBehaviour
     public void HomeButtonOnClick()
     {
         selectMenu.SetActive(true);
-        gameType = GameType.None;
         dodgerGameMap.SetActive(false);
         mazeRunnerGameMap.SetActive(false);
 
-        playerSpawn.Delete();
-        playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
-        playerSpawn.player = new GameObject[0];
+        if (gameType == GameType.DodgerGame)
+        {
+            playerSpawn.Delete();
+            playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
+            playerSpawn.player = new GameObject[0];
+        }
+        else if (gameType == GameType.MazeRunnerGame)
+        {
+            playerSpawn.player = new GameObject[0];
+            playerSpawn.Delete();
+            playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
+        }
 
         obstacleObjectManager.DeleteObjects();
         movementObjectManager.DeleteObjects();
@@ -104,6 +112,8 @@ public class GameButtonManager : MonoBehaviour
         dodgerGameMenu.SetActive(false);
         
         mazeRunnerGameMenu.SetActive(false);
-        
+
+        gameType = GameType.None;
+
     }
 }
