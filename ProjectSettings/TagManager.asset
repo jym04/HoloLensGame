@@ -13,6 +13,7 @@ TagManager:
   - QRCode
   - SpawnObject
   - Debug
+  - ConveyorBelt
   layers:
   - Default
   - TransparentFX

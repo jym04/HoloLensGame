@@ -19,7 +19,7 @@ public class NavMeshAgentController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
     public GameObject movementObjectCollection;
-    public TMP_Text pointCount;
+    //public TMP_Text pointCount;
     private float extraRotationSpeed = 10f;
 
     private PlayerSpawn playerSpawn;
@@ -37,7 +37,7 @@ public class NavMeshAgentController : MonoBehaviour
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         movementObjectManager = GameObject.FindWithTag("SpawnObject").GetComponent<MovementObjectManager>();
-        pointCount = GameObject.FindWithTag("Debug").GetComponentInChildren<TMP_Text>();
+        //pointCount = GameObject.FindWithTag("Debug").GetComponentInChildren<TMP_Text>();
         points = GameObject.FindWithTag("Point");
         movementObjectManager.SpawnObject();
         target = points.transform.GetChild(1);
@@ -54,7 +54,7 @@ public class NavMeshAgentController : MonoBehaviour
             case PlayerStatus.Move: MakePath(); ChangeTarget(); break;
             case PlayerStatus.Stop: UpdateRotate(); break;
         }
-        pointCount.text = target.ToString();
+        //pointCount.text = target.ToString();
         UpdateUI();
     }
 
@@ -124,8 +124,11 @@ public class NavMeshAgentController : MonoBehaviour
                         else if (target == points.transform.GetChild(4).transform)
                         {
                             target = points.transform.GetChild(5).transform;
-                            Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
-                            movementObjectManager.arriveCount += 1;
+                            if (movementObjectCollection.transform.GetChild(0).gameObject != null)
+                            {
+                                movementObjectCollection.transform.GetChild(0).gameObject.GetComponent<MoveObject>().ArriveSetObject();
+                                movementObjectManager.arriveCount += 1;
+                            }
                         }
                         else if (target == points.transform.GetChild(5).transform)
                         {
@@ -142,9 +145,12 @@ public class NavMeshAgentController : MonoBehaviour
                         else if (target == points.transform.GetChild(1).transform)
                         {
                             target = points.transform.GetChild(0).transform;
-                            Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
-                            movementObjectManager.arriveCount += 1;
-                            movementObjectManager.SpawnObject();
+                            if (movementObjectCollection.transform.childCount != 0)
+                            {
+                                movementObjectCollection.transform.GetChild(0).gameObject.GetComponent<MoveObject>().ArriveSetObject();
+                                movementObjectManager.arriveCount += 1;
+                                movementObjectManager.SpawnObject();
+                            }
                         }
                         playerStatus = PlayerStatus.Stop;
                     }
@@ -172,6 +178,7 @@ public class NavMeshAgentController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         playerStatus = PlayerStatus.Move;
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
