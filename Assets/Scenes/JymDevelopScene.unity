@@ -3362,6 +3362,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253749000}
   - component: {fileID: 253749001}
+  - component: {fileID: 253749002}
   m_Layer: 0
   m_Name: ConveyorBeltCollider
   m_TagString: Untagged
@@ -3397,6 +3398,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.2237225, y: 2.0752275, z: 0.15016583}
   m_Center: {x: 7.7911606, y: -0.5367348, z: 0.43057993}
+--- !u!208 &253749002
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253748999}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 1, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 7.9, y: -0.5, z: 0.45}
+  m_TimeToStationary: 0.5
 --- !u!1 &261254910
 GameObject:
   m_ObjectHideFlags: 0
@@ -17973,6 +17990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1573062516}
   - component: {fileID: 1573062517}
+  - component: {fileID: 1573062518}
   m_Layer: 0
   m_Name: ConveyorBeltCollider
   m_TagString: Untagged
@@ -18008,6 +18026,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8.4780035, y: 1, z: 0.1501658}
   m_Center: {x: 2.9699445, y: 0, z: 0.4305799}
+--- !u!208 &1573062518
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573062515}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.5, y: 0.5, z: 0.1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 2.7, y: 0, z: 0.45}
+  m_TimeToStationary: 0.5
 --- !u!1 &1582860110
 GameObject:
   m_ObjectHideFlags: 0

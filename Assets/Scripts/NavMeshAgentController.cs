@@ -177,8 +177,21 @@ public class NavMeshAgentController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
 
-        playerStatus = PlayerStatus.Move;
-        
+        if (gameButtonManager.gameType == GameType.DodgerGame)
+        {
+            playerStatus = PlayerStatus.Move;
+        }
+        else if(gameButtonManager.gameType == GameType.MazeRunnerGame)
+        {
+            if (target == points.transform.GetChild(1).transform && movementObjectCollection.transform.childCount != 0)
+            {
+                playerStatus = PlayerStatus.Move;
+            }
+            else if(target == points.transform.GetChild(0).transform && movementObjectCollection.transform.childCount == 0)
+            {
+                playerStatus = PlayerStatus.Move;
+            }
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
