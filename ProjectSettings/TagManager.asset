@@ -12,6 +12,7 @@ TagManager:
   - Point
   - QRCode
   - SpawnObject
+  - Debug
   layers:
   - Default
   - TransparentFX

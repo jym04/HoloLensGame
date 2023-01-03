@@ -8,18 +8,18 @@ public enum PlayerStatus
 {
     Start,
     Move,
-    Stop,
-    Rotate
+    Stop
 }
 public class NavMeshAgentController : MonoBehaviour
 {
     public PlayerStatus playerStatus;
 
     public Transform target;
-    public GameObject[] Point;
+    public GameObject points;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
     public GameObject movementObjectCollection;
+    public TMP_Text pointCount;
     private float extraRotationSpeed = 10f;
 
     private PlayerSpawn playerSpawn;
@@ -34,14 +34,15 @@ public class NavMeshAgentController : MonoBehaviour
     void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
-        Point = GameObject.FindGameObjectsWithTag("Point");
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         movementObjectManager = GameObject.FindWithTag("SpawnObject").GetComponent<MovementObjectManager>();
+        pointCount = GameObject.FindWithTag("Debug").GetComponentInChildren<TMP_Text>();
+        points = GameObject.FindWithTag("Point");
         movementObjectManager.SpawnObject();
-        target = Point[1].transform;
+        target = points.transform.GetChild(1);
 
-        lineRenderer = this.GetComponent<LineRenderer>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
         lineRenderer.startWidth = lineRenderer.endWidth = 0.003f;
         lineRenderer.enabled = false;
     }
@@ -49,17 +50,16 @@ public class NavMeshAgentController : MonoBehaviour
     {
         switch (playerStatus)
         {
-            case PlayerStatus.Start: playerStatus = PlayerStatus.Rotate; break;
-            case PlayerStatus.Move: MakePath(); break;
-            case PlayerStatus.Stop: ChangeTarget(); break;
-            case PlayerStatus.Rotate: UpdateRotate(); break;
+            case PlayerStatus.Start: playerStatus = PlayerStatus.Stop; break;
+            case PlayerStatus.Move: MakePath(); ChangeTarget(); break;
+            case PlayerStatus.Stop: UpdateRotate(); break;
         }
+        pointCount.text = target.ToString();
         UpdateUI();
     }
 
     public void MakePath()
     {
-        navMeshAgent.enabled = true;
         lineRenderer.enabled = true;
         StopCoroutine(MakePathCoroutine());
         StartCoroutine(MakePathCoroutine());
@@ -92,7 +92,6 @@ public class NavMeshAgentController : MonoBehaviour
 
             yield return null;
         }
-        playerStatus = PlayerStatus.Stop;
         lineRenderer.enabled = false;
     }
     private void ChangeTarget()
@@ -105,49 +104,49 @@ public class NavMeshAgentController : MonoBehaviour
                 {
                     if (gameButtonManager.gameType == GameType.DodgerGame)
                     {
-                        if (target == Point[0].transform)
+                        if (target == points.transform.GetChild(0).transform)
                         {
-                            target = Point[1].transform;
+                            target = points.transform.GetChild(1).transform;
                             movementObjectManager.SpawnObject();
                         }
-                        else if (target == Point[1].transform)
+                        else if (target == points.transform.GetChild(1).transform)
                         {
-                            target = Point[2].transform;
+                            target = points.transform.GetChild(2).transform;
                         }
-                        else if (target == Point[2].transform)
+                        else if (target == points.transform.GetChild(2).transform)
                         {
-                            target = Point[3].transform;
+                            target = points.transform.GetChild(3).transform;
                         }
-                        else if (target == Point[3].transform)
+                        else if (target == points.transform.GetChild(3).transform)
                         {
-                            target = Point[4].transform;
+                            target = points.transform.GetChild(4).transform;
                         }
-                        else if (target == Point[4].transform)
+                        else if (target == points.transform.GetChild(4).transform)
                         {
-                            target = Point[5].transform;
+                            target = points.transform.GetChild(5).transform;
                             Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
                             movementObjectManager.arriveCount += 1;
                         }
-                        else if (target == Point[5].transform)
+                        else if (target == points.transform.GetChild(5).transform)
                         {
-                            target = Point[0].transform;
+                            target = points.transform.GetChild(0).transform;
                         }
-                        playerStatus = PlayerStatus.Rotate;
+                        playerStatus = PlayerStatus.Stop;
                     }
                     else if (gameButtonManager.gameType == GameType.MazeRunnerGame)
                     {
-                        if (target == Point[0].transform)
+                        if (target ==points.transform.GetChild(0).transform)
                         {
-                            target = Point[1].transform;
+                            target = points.transform.GetChild(1).transform;
                         }
-                        else if (target == Point[1].transform)
+                        else if (target == points.transform.GetChild(1).transform)
                         {
-                            target = Point[0].transform;
+                            target = points.transform.GetChild(0).transform;
                             Destroy(movementObjectCollection.transform.GetChild(0).gameObject);
                             movementObjectManager.arriveCount += 1;
                             movementObjectManager.SpawnObject();
                         }
-                        playerStatus = PlayerStatus.Rotate;
+                        playerStatus = PlayerStatus.Stop;
                     }
                 }
             }
