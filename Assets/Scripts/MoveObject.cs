@@ -53,6 +53,7 @@ public class MoveObject : MonoBehaviour
                 float step = Time.deltaTime * 0.3f;
 
                 transform.position = Vector3.MoveTowards(currentPosition, spawnWayPoint[spawnWayPointIndex], step);
+                transform.LookAt(spawnWayPoint[spawnWayPointIndex]);
 
                 if (Mathf.Abs(Vector3.Distance(spawnWayPoint[spawnWayPointIndex], currentPosition)) <= 0.01f)
                 {
@@ -69,6 +70,8 @@ public class MoveObject : MonoBehaviour
                 float step = Time.deltaTime * 0.3f;
 
                 transform.position = Vector3.MoveTowards(currentPosition, arriveWayPoint[arriveWayPointIndex], step);
+                Vector3 lookRotation = arriveWayPoint[arriveWayPointIndex] - transform.position;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), 5 * Time.deltaTime);
 
                 if (Mathf.Abs(Vector3.Distance(arriveWayPoint[arriveWayPointIndex], currentPosition)) <= 0.01f)
                 {
