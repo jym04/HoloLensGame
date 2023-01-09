@@ -101,8 +101,9 @@ public class GameButtonManager : MonoBehaviour
         }
         else if (gameType == GameType.MazeRunnerGame)
         {
-            playerSpawn.player = new GameObject[0];
+            
             playerSpawn.Delete();
+            playerSpawn.player = new GameObject[0];
             playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
         }
 

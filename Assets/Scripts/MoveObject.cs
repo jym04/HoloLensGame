@@ -60,6 +60,11 @@ public class MoveObject : MonoBehaviour
                     spawnWayPointIndex++;
                 }
             }
+            else
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+            }
+            
         }
         else if (remove)
         {
