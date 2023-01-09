@@ -226,7 +226,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementObjectManager: {fileID: 0}
-  rigid: {fileID: 8196151962700525516}
   spawnWayPoint: []
   arriveWayPoint: []
   currentPosition: {x: 0, y: 0, z: 0}
