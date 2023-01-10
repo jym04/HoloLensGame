@@ -47,7 +47,6 @@ namespace QRTracking
         // Use this for initialization
         void Start()
         {
-            Debug.Log("QRCodesVisualizer start");
             scanningText.text = "Start Scan 버튼을 눌러주세요";
             qrCodesObjectsList = new SortedDictionary<string, GameObject>();
 

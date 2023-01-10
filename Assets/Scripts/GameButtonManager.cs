@@ -68,11 +68,11 @@ public class GameButtonManager : MonoBehaviour
         {
             QRCodesManager.Instance.StartQRTracking();
             obstacleObjectManager.DeleteObjects();
+            movementObjectManager.DeleteObjects();
 
             playerSpawn.Delete();
             StopCoroutine(playerSpawn.spawnCorutine);
         }
-        
     }
     public void PlayButtonOnClick()
     {
@@ -80,14 +80,8 @@ public class GameButtonManager : MonoBehaviour
         {
             obstacleObjectManager.InstantiateObjects();
             playerSpawn.StartSpawn();
-            StartCoroutine(StopScanning());
+            QRCodesManager.Instance.StopQRTracking();
         }
-    }
-    private IEnumerator StopScanning ()
-    {
-        yield return new WaitForSeconds(1f);
-
-        QRCodesManager.Instance.StopQRTracking();
     }
 
     public void HomeButtonOnClick()

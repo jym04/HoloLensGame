@@ -10,7 +10,8 @@ public class PlayerSpawn : MonoBehaviour
     public GameObject dodgerStartPoint;
     public GameObject mazeRunnerStartPoint;
 
-    public int playerMaxCount;
+    private GameObject[] player;
+    private int playerMaxCount;
 
     public GameButtonManager gameButtonManager;
 
@@ -19,6 +20,7 @@ public class PlayerSpawn : MonoBehaviour
     public void SetSpawn()
     {
         playerMaxCount = gameButtonManager.gameType == GameType.DodgerGame ? 5 : 1;
+        player = new GameObject[playerMaxCount];
         startPoint = gameButtonManager.gameType == GameType.DodgerGame ? dodgerStartPoint : mazeRunnerStartPoint;
     }
     public void StartSpawn()
@@ -32,6 +34,7 @@ public class PlayerSpawn : MonoBehaviour
         {
             StopCoroutine(spawnCorutine);
             playerMaxCount = 0;
+            player = new GameObject[0];
         }
     }
     public IEnumerator SpawnPlayer()
@@ -43,7 +46,10 @@ public class PlayerSpawn : MonoBehaviour
         {
             for (int i = 0; i < playerMaxCount; i++)
             {
-                GameObject player = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity, transform);
+                if (player[i] == null)
+                {
+                    player[i] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity, transform);
+                }
                 WaitForSeconds spawnDelay = new WaitForSeconds(2.5f);
                 yield return spawnDelay;
             }
