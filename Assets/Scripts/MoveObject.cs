@@ -76,7 +76,7 @@ public class MoveObject : MonoBehaviour
 
                 transform.position = Vector3.MoveTowards(currentPosition, arriveWayPoint[arriveWayPointIndex], step);
                 Vector3 lookRotation = arriveWayPoint[arriveWayPointIndex] - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), 5 * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), 20 * Time.deltaTime);
 
                 if (Mathf.Abs(Vector3.Distance(arriveWayPoint[arriveWayPointIndex], currentPosition)) <= 0.01f)
                 {
@@ -106,8 +106,8 @@ public class MoveObject : MonoBehaviour
             GameObject movementObjectCollection = collision.gameObject.transform.GetChild(5).gameObject;
             if (movementObjectCollection.transform.childCount == 0)
             {
-                gameObject.transform.parent = collision.gameObject.transform.GetChild(5);
-                gameObject.transform.position = collision.gameObject.transform.GetChild(5).position;
+                gameObject.transform.parent = movementObjectCollection.transform;
+                gameObject.transform.position = movementObjectCollection.transform.position;
                 transform.eulerAngles = Vector3.zero;
             }
         }

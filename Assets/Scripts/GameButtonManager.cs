@@ -93,17 +93,16 @@ public class GameButtonManager : MonoBehaviour
         dodgerGameMap.SetActive(false);
         mazeRunnerGameMap.SetActive(false);
 
-        if (gameType == GameType.DodgerGame)
+        if (GameObject.FindWithTag("Player"))
         {
             playerSpawn.Delete();
             playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
             playerSpawn.player = new GameObject[0];
         }
-        else if (gameType == GameType.MazeRunnerGame)
+        else if (!GameObject.FindWithTag("Player"))
         {
-            
-            playerSpawn.Delete();
             playerSpawn.player = new GameObject[0];
+            playerSpawn.Delete();
             playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
         }
 
