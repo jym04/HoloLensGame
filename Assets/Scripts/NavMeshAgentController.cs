@@ -33,7 +33,7 @@ public class NavMeshAgentController : MonoBehaviour
 
     void Start()
     {
-        navMeshAgent = this.GetComponent<NavMeshAgent>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         playerSpawn = GameObject.FindWithTag("Spawn").GetComponent<PlayerSpawn>();
         gameButtonManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
         movementObjectManager = GameObject.FindWithTag("SpawnObject").GetComponent<MovementObjectManager>();
@@ -175,7 +175,8 @@ public class NavMeshAgentController : MonoBehaviour
     }
     private IEnumerator RotateDelay()
     {
-        yield return new WaitForSeconds(0.3f);
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
 
         if (gameButtonManager.gameType == GameType.DodgerGame)
         {
@@ -197,7 +198,7 @@ public class NavMeshAgentController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            playerSpawn.Spawn();
+            playerSpawn.StartSpawn();
 
             Destroy(gameObject);
         }

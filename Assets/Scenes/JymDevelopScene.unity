@@ -1516,13 +1516,8 @@ MonoBehaviour:
   startPoint: {fileID: 0}
   dodgerStartPoint: {fileID: 442554065}
   mazeRunnerStartPoint: {fileID: 676463700}
-  player:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  playerMaxCount: 5
+  player: []
+  playerMaxCount: 0
   isarrive: 0
   gameButtonManager: {fileID: 869270314}
 --- !u!1 &100906421
