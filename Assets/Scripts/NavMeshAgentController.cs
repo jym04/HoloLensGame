@@ -193,6 +193,7 @@ public class NavMeshAgentController : MonoBehaviour
                 playerStatus = PlayerStatus.Move;
             }
         }
+        yield break;
     }
     private void OnCollisionEnter(Collision collision)
     {
