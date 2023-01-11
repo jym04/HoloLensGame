@@ -5,51 +5,69 @@ using UnityEngine;
 public class PlayerSpawn : MonoBehaviour
 {
     public GameObject playerPrefab;
-    public GameObject startPoint;
+
+    private GameObject startPoint;
     public GameObject dodgerStartPoint;
     public GameObject mazeRunnerStartPoint;
 
-    public GameObject[] player;
-
-    public int playerMaxCount;
-
-    public bool isarrive;
+    private GameObject[] player;
+    private int playerMaxCount;
 
     public GameButtonManager gameButtonManager;
-    public void Spawn()
+
+    public IEnumerator spawnCorutine;
+
+    public void SetSpawn()
     {
-        StopCoroutine(SpawnPlayer());
-        StartCoroutine(SpawnPlayer());
+        playerMaxCount = gameButtonManager.gameType == GameType.DodgerGame ? 5 : 1;
+        player = new GameObject[playerMaxCount];
+        startPoint = gameButtonManager.gameType == GameType.DodgerGame ? dodgerStartPoint : mazeRunnerStartPoint;
+    }
+    public void StartSpawn()
+    {
+        spawnCorutine = SpawnPlayer();
+        StartCoroutine(spawnCorutine);
+    }
+    public void StopSpawn()
+    {
+        if (spawnCorutine != null)
+        {
+            StopCoroutine(spawnCorutine);
+            playerMaxCount = 0;
+            player = new GameObject[0];
+        }
     }
     public IEnumerator SpawnPlayer()
     {
-        yield return new WaitForSeconds(2f);
+        WaitForSeconds checkDelay = new WaitForSeconds(2f);
+        yield return checkDelay;
 
         if (gameButtonManager.gameType != GameType.None)
         {
-            playerMaxCount = gameButtonManager.gameType == GameType.DodgerGame ? 5 : 1;
-            startPoint = gameButtonManager.gameType == GameType.DodgerGame ? dodgerStartPoint : mazeRunnerStartPoint;
-
-            for (int index = 0; index < player.Length; index++)
+            for (int i = 0; i < playerMaxCount; i++)
             {
-                if (player[index] == null)
+                if (player[i] == null)
                 {
-                    Debug.Log(index);
-                    player[index] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity);
+                    player[i] = Instantiate(playerPrefab, startPoint.transform.position, Quaternion.identity, transform);
                 }
-                yield return new WaitForSeconds(2.5f);
+                WaitForSeconds spawnDelay = new WaitForSeconds(2.5f);
+                yield return spawnDelay;
             }
         }
     }
     public void Delete()
     {
-        for(int i = 0; i < playerMaxCount; i++)
+        Transform[] childList = transform.GetComponentsInChildren<Transform>();
+
+        if (childList != null)
         {
-            if (player.Length != 0)
+            for (int i = 1; i < childList.Length; i++)
             {
-                Destroy(player[i]);
+                if (childList[i] != transform)
+                {
+                    Destroy(childList[i].gameObject);
+                }
             }
         }
-        player = gameButtonManager.gameType == GameType.DodgerGame ? new GameObject[5] : new GameObject[1];
     }
 }

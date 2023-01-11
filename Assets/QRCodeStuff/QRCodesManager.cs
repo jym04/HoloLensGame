@@ -79,7 +79,6 @@ namespace QRTracking
         // Use this for initialization - this is where it starts!
         async protected virtual void Start()
         {
-            Debug.Log("In Start() of QRCodesManager");
             IsSupported = QRCodeWatcher.IsSupported(); //Gets whether QR code detection is supported on the current device.
             capabilityTask = QRCodeWatcher.RequestAccessAsync(); //Request user consent before using QR code detection.
             accessStatus = await capabilityTask;

@@ -36,8 +36,9 @@ public class GameButtonManager : MonoBehaviour
 
         dodgerGameMap.SetActive(true);
         navigationBaker[0].Baked();
-        playerSpawn.player = new GameObject[5];
-        playerSpawn.Spawn();
+
+        playerSpawn.SetSpawn();
+        playerSpawn.StartSpawn();
     }
     public void MazeRunnerGameButtonOnClick()
     {
@@ -49,7 +50,8 @@ public class GameButtonManager : MonoBehaviour
 
         mazeRunnerGameMap.SetActive(true);
         navigationBaker[1].Baked();
-        playerSpawn.player = new GameObject[1];
+
+        playerSpawn.SetSpawn();
         QRCodesManager.Instance.StartQRTracking();
     }
     public void SpawnButtonOnClick()
@@ -66,25 +68,20 @@ public class GameButtonManager : MonoBehaviour
         {
             QRCodesManager.Instance.StartQRTracking();
             obstacleObjectManager.DeleteObjects();
+            movementObjectManager.DeleteObjects();
+
             playerSpawn.Delete();
+            StopCoroutine(playerSpawn.spawnCorutine);
         }
-        
     }
     public void PlayButtonOnClick()
     {
         if (GameObject.FindWithTag("Player") == null)
         {
             obstacleObjectManager.InstantiateObjects();
-            playerSpawn.Spawn();
-            StopCoroutine(StopScanning());
-            StartCoroutine(StopScanning());
+            playerSpawn.StartSpawn();
+            QRCodesManager.Instance.StopQRTracking();
         }
-    }
-    private IEnumerator StopScanning ()
-    {
-        yield return new WaitForSeconds(1f);
-
-        QRCodesManager.Instance.StopQRTracking();
     }
 
     public void HomeButtonOnClick()
@@ -93,19 +90,8 @@ public class GameButtonManager : MonoBehaviour
         dodgerGameMap.SetActive(false);
         mazeRunnerGameMap.SetActive(false);
 
-        if (gameType == GameType.DodgerGame)
-        {
-            playerSpawn.Delete();
-            playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
-            playerSpawn.player = new GameObject[0];
-        }
-        else if (gameType == GameType.MazeRunnerGame)
-        {
-            
-            playerSpawn.Delete();
-            playerSpawn.player = new GameObject[0];
-            playerSpawn.StopCoroutine(playerSpawn.SpawnPlayer());
-        }
+        playerSpawn.Delete();
+        playerSpawn.StopSpawn();
 
         obstacleObjectManager.DeleteObjects();
         movementObjectManager.DeleteObjects();
@@ -115,6 +101,5 @@ public class GameButtonManager : MonoBehaviour
         mazeRunnerGameMenu.SetActive(false);
 
         gameType = GameType.None;
-
     }
 }
