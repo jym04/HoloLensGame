@@ -17599,7 +17599,12 @@ MonoBehaviour:
   x_Space: 0.1
   y_Space: 0
   z_Space: 0
-  obstaclePrefab: {fileID: 8618980679844371043, guid: 7801e87d6bafe4c4eb47e5ea499fe5c9, type: 3}
+  obstaclePrefab: {fileID: 0}
+  d_obstaclePrefab: {fileID: 8618980679844371043, guid: 7801e87d6bafe4c4eb47e5ea499fe5c9, type: 3}
+  p_obstaclePrefab:
+  - {fileID: 958044478942889185, guid: c91a43dfd055a614bbb34838aeefdf32, type: 3}
+  - {fileID: 653738694437721891, guid: 674600627e0c5c844ba7a53b8c45f58f, type: 3}
+  - {fileID: 8423784459484884247, guid: c5dce5baf7fea62458162d6ad427cb48, type: 3}
   obstaclesPlace: {fileID: 981546045}
   obstaclesCollection: {fileID: 1529816890}
   gameManager: {fileID: 869270314}

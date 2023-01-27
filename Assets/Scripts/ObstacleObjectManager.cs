@@ -10,6 +10,8 @@ public class ObstacleObjectManager : MonoBehaviour
     public int columnLength, rowLength;
     public float x_Space, y_Space, z_Space;
     public GameObject obstaclePrefab;
+    public GameObject d_obstaclePrefab;
+    public GameObject[] p_obstaclePrefab;
     public GameObject obstaclesPlace;
     public GameObject obstaclesCollection;
 
@@ -22,6 +24,8 @@ public class ObstacleObjectManager : MonoBehaviour
     {
         if (gameManager.gameType == GameType.DodgerGame)
         {
+            obstaclePrefab = d_obstaclePrefab;
+
             for (int i = 0; i < columnLength; i++)
             {
                 GameObject obstacle = Instantiate(obstaclePrefab,
@@ -42,11 +46,26 @@ public class ObstacleObjectManager : MonoBehaviour
             //HoloLens ¿ë ÄÚµå
             foreach (var qrcode in qrCodesVisualizer.qrCodesObjectsList)
             {
+                if (qrcode.Key.Contains("Pile Of Box"))
+                {
+                    obstaclePrefab = p_obstaclePrefab[0];
+                }
+                else if (qrcode.Key.Contains("Sign"))
+                {
+                    obstaclePrefab = p_obstaclePrefab[1];
+                }
+                else if(qrcode.Key.Contains("Pile Of DrumBox"))
+                {
+                    obstaclePrefab = p_obstaclePrefab[2];
+                }
+                else
+                {
+                    obstaclePrefab = d_obstaclePrefab;
+                }
                 Instantiate(obstaclePrefab, new Vector3(qrcode.Value.gameObject.transform.localPosition.x, qrcode.Value.gameObject.transform.localPosition.y+0.02f, qrcode.Value.gameObject.transform.localPosition.z), Quaternion.identity, obstaclesCollection.transform);
                 //qrcodelist.text = "qrcode Count : " + qrCodesVisualizer.qrCodesObjectsList.Count;
             }
         }
-        
     }
     public void DeleteObjects()
     {
