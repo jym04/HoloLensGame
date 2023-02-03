@@ -11,37 +11,37 @@ public class MovementObjectManager : MonoBehaviour
 
     public GameObject movementObjectCollection;
 
-    public Transform dodger_spawnPoint;
-    public Transform maze_spawnPoint;
+    public Transform obstacleAvoidance_spawnPoint;
+    public Transform pathPlanning_spawnPoint;
 
     public int spawnCount;
     public int arriveCount;
 
-    public TMP_Text dodger_spawnCountText;
-    public TMP_Text dodger_arriveCountText;
+    public TMP_Text obstacleAvoidance_spawnCountText;
+    public TMP_Text obstacleAvoidance_arriveCountText;
 
-    public TMP_Text maze_spawnCountText;
-    public TMP_Text maze_arriveCountText;
+    public TMP_Text pathPlanning_spawnCountText;
+    public TMP_Text pathPlanning_arriveCountText;
 
     private void Update()
     {
-        dodger_spawnCountText.text = spawnCount.ToString();
-        dodger_arriveCountText.text = arriveCount.ToString();
+        obstacleAvoidance_spawnCountText.text = spawnCount.ToString();
+        obstacleAvoidance_arriveCountText.text = arriveCount.ToString();
 
-        maze_spawnCountText.text = spawnCount.ToString();
-        maze_arriveCountText.text = arriveCount.ToString();
+        pathPlanning_spawnCountText.text = spawnCount.ToString();
+        pathPlanning_arriveCountText.text = arriveCount.ToString();
     }
     public void SpawnObject()
     {
-        if (gameButtonManager.gameType == GameType.DodgerGame)
+        if (gameButtonManager.gameType == GameType.ObstacleAvoidance)
         {
-            Vector3 spawnPosition = new Vector3(dodger_spawnPoint.position.x, dodger_spawnPoint.position.y + 0.02f, dodger_spawnPoint.position.z);
+            Vector3 spawnPosition = new Vector3(obstacleAvoidance_spawnPoint.position.x, obstacleAvoidance_spawnPoint.position.y + 0.02f, obstacleAvoidance_spawnPoint.position.z);
             GameObject moveObject = Instantiate(moveObjectPrefab, spawnPosition, Quaternion.identity, movementObjectCollection.transform);
             spawnCount += 1;
         }
         else
         {
-            Vector3 spawnPosition = new Vector3(maze_spawnPoint.position.x, maze_spawnPoint.position.y + 0.02f, maze_spawnPoint.position.z);
+            Vector3 spawnPosition = new Vector3(pathPlanning_spawnPoint.position.x, pathPlanning_spawnPoint.position.y + 0.02f, pathPlanning_spawnPoint.position.z);
             GameObject moveObject = Instantiate(moveObjectPrefab, spawnPosition, Quaternion.identity, movementObjectCollection.transform);
             spawnCount += 1;
         }

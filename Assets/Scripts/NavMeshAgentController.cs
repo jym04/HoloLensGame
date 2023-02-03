@@ -18,8 +18,9 @@ public class NavMeshAgentController : MonoBehaviour
     public GameObject points;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
+    public GameObject lineStartPoint;
     public GameObject movementObjectCollection;
-    //public TMP_Text pointCount;
+
     private float extraRotationSpeed = 10f;
 
     private PlayerSpawn playerSpawn;
@@ -30,6 +31,8 @@ public class NavMeshAgentController : MonoBehaviour
     public TMP_Text movedDistance;
     public TMP_Text workingTime;
     private float workTime;
+
+    private Vector3 targetPosition;
 
     void Start()
     {
@@ -71,22 +74,22 @@ public class NavMeshAgentController : MonoBehaviour
 
         lineRenderer.positionCount = length;
         for (int i = 1; i < length; i++)
-            lineRenderer.SetPosition(i, navMeshAgent.path.corners[i]);
+            lineRenderer.SetPosition(i, navMeshAgent.path.corners[i] - new Vector3(0, 0.01f, 0));
     }
 
     IEnumerator MakePathCoroutine()
     {
         navMeshAgent.SetDestination(target.transform.position);
 
-        lineRenderer.SetPosition(0, this.transform.position);
+        lineRenderer.SetPosition(0, lineStartPoint.transform.position);
 
         while (navMeshAgent.hasPath)
         {
-            lineRenderer.SetPosition(0, this.transform.position);
+            lineRenderer.SetPosition(0, lineStartPoint.transform.position);
 
             Vector3 lookrotation = navMeshAgent.steeringTarget - transform.position;
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookrotation), Time.deltaTime);
 
             DrawRoute();
 
@@ -102,7 +105,7 @@ public class NavMeshAgentController : MonoBehaviour
             {
                 if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
                 {
-                    if (gameButtonManager.gameType == GameType.DodgerGame)
+                    if (gameButtonManager.gameType == GameType.ObstacleAvoidance)
                     {
                         if (target == points.transform.GetChild(0).transform)
                         {
@@ -136,7 +139,7 @@ public class NavMeshAgentController : MonoBehaviour
                         }
                         playerStatus = PlayerStatus.Stop;
                     }
-                    else if (gameButtonManager.gameType == GameType.MazeRunnerGame)
+                    else if (gameButtonManager.gameType == GameType.PathPlanning)
                     {
                         if (target ==points.transform.GetChild(0).transform)
                         {
@@ -168,7 +171,8 @@ public class NavMeshAgentController : MonoBehaviour
     private void UpdateRotate()
     {
         Vector3 lookrotation = target.position - transform.position;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(lookrotation), extraRotationSpeed * Time.deltaTime);
 
         StopCoroutine(RotateDelay());
         StartCoroutine(RotateDelay());
@@ -178,11 +182,11 @@ public class NavMeshAgentController : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         yield return delay;
 
-        if (gameButtonManager.gameType == GameType.DodgerGame)
+        if (gameButtonManager.gameType == GameType.ObstacleAvoidance)
         {
             playerStatus = PlayerStatus.Move;
         }
-        else if(gameButtonManager.gameType == GameType.MazeRunnerGame)
+        else if(gameButtonManager.gameType == GameType.PathPlanning)
         {
             if (target == points.transform.GetChild(1).transform && movementObjectCollection.transform.childCount != 0)
             {
@@ -193,6 +197,7 @@ public class NavMeshAgentController : MonoBehaviour
                 playerStatus = PlayerStatus.Move;
             }
         }
+
         yield break;
     }
     private void OnCollisionEnter(Collision collision)

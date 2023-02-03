@@ -18,8 +18,6 @@ namespace QRTracking
         public System.Collections.Generic.SortedDictionary<string, GameObject> qrCodesObjectsList;
         private bool clearExisting = false;
         public GameObject[] mapObject;
-        public GameObject debug;
-        public TMP_Text debugtext;
 
         struct ActionData
         {
@@ -168,10 +166,6 @@ namespace QRTracking
         {
             HandleEvents();
             ScanQRCode();
-            //foreach (var qrcode in qrCodesObjectsList)
-            //{
-            //    debugtext.text = mapObject[0].transform.localRotation.eulerAngles.ToString();
-            //}
         }
         private void ScanQRCode()
         {
@@ -197,8 +191,6 @@ namespace QRTracking
                 mapObject[0].transform.rotation = Quaternion.Euler(0, qrcode.Value.gameObject.transform.localRotation.eulerAngles.y + qrcode.Value.gameObject.transform.localRotation.eulerAngles.z, 0);
                 mapObject[1].transform.rotation = Quaternion.Euler(0, qrcode.Value.gameObject.transform.localRotation.eulerAngles.y + qrcode.Value.gameObject.transform.localRotation.eulerAngles.z, 0);
             }
-            //mapObject[0].transform.rotation = Quaternion.Euler(0f, debug.transform.rotation.eulerAngles.y + debug.transform.rotation.eulerAngles.z, 0);
-            debugtext.text = mapObject[0].transform.rotation.eulerAngles.ToString();
             QRCodesManager.Instance.StopQRTracking();
             scanningText.text = "Map Scanning Complete";
 
