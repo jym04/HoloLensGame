@@ -6,52 +6,55 @@ using QRTracking;
 public enum GameType
 {
     None,
-    DodgerGame,
-    MazeRunnerGame
+    ObstacleAvoidance,
+    PathPlanning
 }
 public class GameButtonManager : MonoBehaviour
 {
     public GameType gameType;
 
-    public GameObject dodgerGameMenu;
-    public GameObject mazeRunnerGameMenu;
+    public GameObject obstacleAvoidanceMenu;
+    public GameObject pathPlanningMenu;
     public GameObject selectMenu;
+    public GameObject debugMenu;
 
-    public GameObject dodgerGameMap;
-    public GameObject mazeRunnerGameMap;
+    public GameObject obstacleAvoidanceMap;
+    public GameObject pathPlanningMap;
 
     public ObstacleObjectManager obstacleObjectManager;
     public PlayerSpawn playerSpawn;
     public MovementObjectManager movementObjectManager;
 
     public NavigationBaker[] navigationBaker;
+    public StartPoint startPoint;
     
-    public void DodgerGameButtonOnClick()
+    public void ObstacleAvoidanceButtonOnClick()
     {
-        dodgerGameMenu.SetActive(true);
-        gameType = GameType.DodgerGame;
+        obstacleAvoidanceMenu.SetActive(true);
+        gameType = GameType.ObstacleAvoidance;
 
         selectMenu.SetActive(false);
-        mazeRunnerGameMenu.SetActive(false);
+        pathPlanningMenu.SetActive(false);
 
-        dodgerGameMap.SetActive(true);
+        obstacleAvoidanceMap.SetActive(true);
         navigationBaker[0].Baked();
 
         playerSpawn.SetSpawn();
         playerSpawn.StartSpawn();
     }
-    public void MazeRunnerGameButtonOnClick()
+    public void PathPlanningButtonOnClick()
     {
-        mazeRunnerGameMenu.SetActive(true);
-        gameType = GameType.MazeRunnerGame;
+        pathPlanningMenu.SetActive(true);
+        gameType = GameType.PathPlanning;
 
         selectMenu.SetActive(false);
-        dodgerGameMenu.SetActive(false);
+        obstacleAvoidanceMenu.SetActive(false);
 
-        mazeRunnerGameMap.SetActive(true);
+        pathPlanningMap.SetActive(true);
         navigationBaker[1].Baked();
 
         playerSpawn.SetSpawn();
+        startPoint.isStart = true;
         QRCodesManager.Instance.StartQRTracking();
     }
     public void SpawnButtonOnClick()
@@ -60,18 +63,21 @@ public class GameButtonManager : MonoBehaviour
     }
     public void ResetButtonOnClick()
     {
-        if (gameType == GameType.DodgerGame)
+        if (gameType == GameType.ObstacleAvoidance)
         {
             obstacleObjectManager.ResetObjects();
         }
-        else if (gameType == GameType.MazeRunnerGame)
+        else if (gameType == GameType.PathPlanning)
         {
             QRCodesManager.Instance.StartQRTracking();
             obstacleObjectManager.DeleteObjects();
             movementObjectManager.DeleteObjects();
 
             playerSpawn.Delete();
-            StopCoroutine(playerSpawn.spawnCorutine);
+            playerSpawn.StopSpawn();
+            playerSpawn.SetSpawn();
+            startPoint.isStart = true;
+            debugMenu.SetActive(false);
         }
     }
     public void PlayButtonOnClick()
@@ -79,16 +85,34 @@ public class GameButtonManager : MonoBehaviour
         if (GameObject.FindWithTag("Player") == null)
         {
             obstacleObjectManager.InstantiateObjects();
+
+            StartCoroutine(PlayDelay());
+        }
+    }
+    private IEnumerator PlayDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        QRCodesManager.Instance.StopQRTracking();
+
+        if (startPoint.isStart == true)
+        {
             playerSpawn.StartSpawn();
-            QRCodesManager.Instance.StopQRTracking();
+        }
+        else
+        {
+            debugMenu.SetActive(true);
+            startPoint.DebugingText();
         }
     }
 
     public void HomeButtonOnClick()
     {
+        QRCodesManager.Instance.StopQRTracking();
+
         selectMenu.SetActive(true);
-        dodgerGameMap.SetActive(false);
-        mazeRunnerGameMap.SetActive(false);
+        obstacleAvoidanceMap.SetActive(false);
+        pathPlanningMap.SetActive(false);
 
         playerSpawn.Delete();
         playerSpawn.StopSpawn();
@@ -96,9 +120,9 @@ public class GameButtonManager : MonoBehaviour
         obstacleObjectManager.DeleteObjects();
         movementObjectManager.DeleteObjects();
 
-        dodgerGameMenu.SetActive(false);
-        
-        mazeRunnerGameMenu.SetActive(false);
+        obstacleAvoidanceMenu.SetActive(false);
+        pathPlanningMenu.SetActive(false);
+        debugMenu.SetActive(false);
 
         gameType = GameType.None;
     }

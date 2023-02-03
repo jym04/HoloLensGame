@@ -11,20 +11,28 @@ public class MoveObject : MonoBehaviour
 
     public Vector3 currentPosition;
 
+    public GameObject test;
+
     private int spawnWayPointIndex = 0;
-    private int arriveWayPointIndex = 0;
+    public int arriveWayPointIndex = 0;
 
     public GameObject spawnWayPointObjects;
     public GameObject arriveWayPointObjects;
 
+    public GameObject map;
+
     public bool insert;
     public bool remove;
+
+    Quaternion rotation;
 
     private void Start()
     {
         movementObjectManager = GameObject.FindWithTag("SpawnObject");
         spawnWayPointObjects = GameObject.Find("SpawnObjectMovePoints");
         arriveWayPointObjects = GameObject.Find("ArriveObjectMovePoints");
+        map = GameObject.FindWithTag("Map");
+        test = GameObject.Find("StartPoint");
 
         spawnWayPoint = new Vector3[spawnWayPointObjects.transform.childCount];
         arriveWayPoint = new Vector3[arriveWayPointObjects.transform.childCount];
@@ -62,7 +70,7 @@ public class MoveObject : MonoBehaviour
             }
             else
             {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+                transform.rotation = Quaternion.Euler(new Vector3(0, map.transform.rotation.eulerAngles.y + 90, 0));
             }
             
         }
@@ -72,11 +80,18 @@ public class MoveObject : MonoBehaviour
 
             if (arriveWayPointIndex < arriveWayPoint.Length)
             {
+
                 float step = Time.deltaTime * 0.3f;
 
                 transform.position = Vector3.MoveTowards(currentPosition, arriveWayPoint[arriveWayPointIndex], step);
                 Vector3 lookRotation = arriveWayPoint[arriveWayPointIndex] - transform.position;
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookRotation), 20 * Time.deltaTime);
+
+                rotation = Quaternion.LookRotation(lookRotation);
+
+                rotation.x = 0f;
+                rotation.z = 0f;
+
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.fixedDeltaTime * 15);
 
                 if (Mathf.Abs(Vector3.Distance(arriveWayPoint[arriveWayPointIndex], currentPosition)) <= 0.01f)
                 {
@@ -99,7 +114,11 @@ public class MoveObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Map"))
+        {
+            gameObject.transform.rotation = Quaternion.Euler(0, map.transform.rotation.eulerAngles.y - 90f, 0);
+        }
+        else if (collision.gameObject.CompareTag("Player"))
         {
             insert = true;
 
@@ -108,7 +127,7 @@ public class MoveObject : MonoBehaviour
             {
                 gameObject.transform.parent = movementObjectCollection.transform;
                 gameObject.transform.position = movementObjectCollection.transform.position;
-                transform.eulerAngles = Vector3.zero;
+                gameObject.transform.rotation = Quaternion.Euler(0, map.transform.rotation.eulerAngles.y + 90f, 0);
             }
         }
     }

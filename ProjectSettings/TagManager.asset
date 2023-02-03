@@ -13,7 +13,7 @@ TagManager:
   - QRCode
   - SpawnObject
   - Debug
-  - ConveyorBelt
+  - StartPoint
   layers:
   - Default
   - TransparentFX
@@ -22,8 +22,8 @@ TagManager:
   - Water
   - UI
   - MovementObject
-  - 
-  - 
+  - ObstacleAvoidance
+  - PathPlanning
   - 
   - 
   - 
