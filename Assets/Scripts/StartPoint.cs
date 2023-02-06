@@ -3,23 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum BoxPointType
+{
+    Spawn,
+    Arrive
+}
 public class StartPoint : MonoBehaviour
 {
-    public bool isStart;
+    public GameButtonManager gameManager;
 
-    public TMP_Text errorNum;
+    private string errorNum;
+    private string debug;
+
+    public TMP_Text errorNumText;
     public TMP_Text debugText;
+
+    private void Start()
+    {
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameButtonManager>();
+    }
 
     public void DebugingText()
     {
-        errorNum.text = "Error Code : 001";
-        debugText.text = "Player 생성 지점에 장애물이" + System.Environment.NewLine + " 생성되어 있습니다";
+        errorNumText.text = errorNum;
+        debugText.text = debug;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.CompareTag("QRCode"))
         {
-            isStart = false;
+            gameManager.isStart = false;
+
+            debug = "Player 생성/도착 지점에 " + System.Environment.NewLine + "장애물 생성을 시도 하였습니다.";
+            errorNum = "Error Code : 001";
+
+            DebugingText();
+        }
+        else if (other.gameObject.CompareTag("Obstacle"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("QRCode"))
+        {
+            gameManager.isStart = true;
         }
     }
 }

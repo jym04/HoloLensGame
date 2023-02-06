@@ -27,7 +27,9 @@ public class GameButtonManager : MonoBehaviour
 
     public NavigationBaker[] navigationBaker;
     public StartPoint startPoint;
-    
+    public bool isStart;
+    public bool error1, error2;
+
     public void ObstacleAvoidanceButtonOnClick()
     {
         obstacleAvoidanceMenu.SetActive(true);
@@ -54,7 +56,9 @@ public class GameButtonManager : MonoBehaviour
         navigationBaker[1].Baked();
 
         playerSpawn.SetSpawn();
-        startPoint.isStart = true;
+
+        isStart = true;
+
         QRCodesManager.Instance.StartQRTracking();
     }
     public void SpawnButtonOnClick()
@@ -76,7 +80,11 @@ public class GameButtonManager : MonoBehaviour
             playerSpawn.Delete();
             playerSpawn.StopSpawn();
             playerSpawn.SetSpawn();
-            startPoint.isStart = true;
+
+            isStart = true;
+            error1 = false;
+            error2 = false;
+
             debugMenu.SetActive(false);
         }
     }
@@ -84,25 +92,36 @@ public class GameButtonManager : MonoBehaviour
     {
         if (GameObject.FindWithTag("Player") == null)
         {
-            obstacleObjectManager.InstantiateObjects();
-
             StartCoroutine(PlayDelay());
         }
     }
     private IEnumerator PlayDelay()
     {
-        yield return new WaitForSeconds(1f);
-
-        QRCodesManager.Instance.StopQRTracking();
-
-        if (startPoint.isStart == true)
+        if (isStart == true)
         {
+            obstacleObjectManager.InstantiateObjects();
+
+            yield return new WaitForSeconds(1f);
+
+            QRCodesManager.Instance.StopQRTracking();
+
+            yield return new WaitForSeconds(0.1f);
+
             playerSpawn.StartSpawn();
         }
         else
         {
+            QRCodesManager.Instance.StopQRTracking();
+
             debugMenu.SetActive(true);
-            startPoint.DebugingText();
+
+            yield return new WaitForSeconds(3f);
+
+            debugMenu.SetActive(false);
+
+            QRCodesManager.Instance.StartQRTracking();
+
+            isStart = true;
         }
     }
 

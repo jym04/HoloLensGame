@@ -14,6 +14,7 @@ TagManager:
   - SpawnObject
   - Debug
   - StartPoint
+  - Floor
   layers:
   - Default
   - TransparentFX
