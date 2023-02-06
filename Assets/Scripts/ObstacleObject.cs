@@ -23,7 +23,7 @@ public class ObstacleObject : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (collision.gameObject.CompareTag("Map"))
+        else if (collision.gameObject.CompareTag("Floor"))
         {
             if (gameManager.gameType == GameType.ObstacleAvoidance)
             {

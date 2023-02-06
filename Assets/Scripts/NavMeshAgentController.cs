@@ -18,7 +18,6 @@ public class NavMeshAgentController : MonoBehaviour
     public GameObject points;
     private NavMeshAgent navMeshAgent;
     private LineRenderer lineRenderer;
-    public GameObject lineStartPoint;
     public GameObject movementObjectCollection;
 
     private float extraRotationSpeed = 10f;
@@ -74,18 +73,18 @@ public class NavMeshAgentController : MonoBehaviour
 
         lineRenderer.positionCount = length;
         for (int i = 1; i < length; i++)
-            lineRenderer.SetPosition(i, navMeshAgent.path.corners[i] - new Vector3(0, 0.01f, 0));
+            lineRenderer.SetPosition(i, navMeshAgent.path.corners[i]);
     }
 
     IEnumerator MakePathCoroutine()
     {
         navMeshAgent.SetDestination(target.transform.position);
 
-        lineRenderer.SetPosition(0, lineStartPoint.transform.position);
+        lineRenderer.SetPosition(0, transform.position);
 
         while (navMeshAgent.hasPath)
         {
-            lineRenderer.SetPosition(0, lineStartPoint.transform.position);
+            lineRenderer.SetPosition(0, transform.position);
 
             Vector3 lookrotation = navMeshAgent.steeringTarget - transform.position;
 
